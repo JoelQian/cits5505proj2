@@ -30,3 +30,7 @@ body {
 .background-brown{
     background-color: #e0dcda;
 }
+
+.hover-orange:hover{
+    color: orange;
+}

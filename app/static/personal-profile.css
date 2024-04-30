@@ -1,0 +1,36 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #222;
+    overflow-x: hidden;
+}
+
+
+/* 给Header设置短一点， 后面需要修改 */
+.header{
+    height:52px;
+   
+}
+
+/* 为了header不挡住内容， 后面还需要修改 */
+.self-intro{
+    margin-top: 3.5rem; 
+    padding-top: 1rem;
+}
+
+.list-style-none{
+    list-style-type: none;
+}
+
+.background-brown{
+    background-color: #e0dcda;
+}
+
+.hover-orange:hover{
+    color: orange;
+}

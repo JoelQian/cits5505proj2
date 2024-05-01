@@ -25,7 +25,10 @@
             </form>
     
             <div class="text-end">
-              <button type="button" class="btn btn-outline-light me-2">Login</button>
+                <div class="text-end">
+                    <button type="button" id="loginButton" class="btn btn-primary btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" >
+                        Login
+                      </button>
               <button type="button" class="btn btn-warning">Sign-up</button>
             </div>
           </div>
@@ -139,7 +142,11 @@
                             <div class="row clearfix">
                                 <div class="col-md-10 column row clearfix">
                                     <div class="col-md-1 column">
-                                        <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
+                                        <!-- Add the link to personal-profile.html -->
+                                        <a href="personal-profile.html">
+                                            <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
+                                      </a>
+
                                     </div>
                                     <div class="col-md-11">
                                         <h5>
@@ -249,7 +256,9 @@
                             <div class="row clearfix">
                                 <div class="col-md-10 column row clearfix">
                                     <div class="col-md-1 column">
+                                        <a href="personal-profile.html">
                                         <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
+                                        </a>
                                     </div>
                                     <div class="col-md-11">
                                         <h5>
@@ -285,7 +294,9 @@
                             <div class="row clearfix">
                                 <div class="col-md-10 column row clearfix">
                                     <div class="col-md-1 column">
+                                        <a href="personal-profile.html">
                                         <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
+                                        </a>
                                     </div>
                                     <div class="col-md-11">
                                         <h5>
@@ -361,6 +372,94 @@
             </div>
         </div>
     </main>
+
+ <!-- login modal -->
+ <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Login</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+           
+            <form>
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="exampleInputPassword1">
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                  </div>
+
+                <button type="submit" class="btn btn-primary">Login</button>
+              </form>
+              
+          
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Forget password?</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Reset password</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+           
+            <form>
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label" aria-describedby="emailHelp">Email address</label>
+                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                  <div id="emailHelp" class="form-text">Please enter your registered email address, and we will send a verification code to your email.</div>
+                </div>
+
+                <div class="text-center mb-3">
+                    <button type="button" class="btn btn-primary" id="getCodeBtn">Get Verification Code</button>
+                </div>
+
+                <div class="mb-3">
+                    <label for="verificationCode" class="form-label">Verification Code</label>
+                    <input type="text" class="form-control" id="verificationCode" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" required>
+
+                <div id="passwordHelpBlock" class="form-text">
+                    Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+                  </div>
+                </div>
+            
+                <div class="mb-3">
+                    <label for="exampleInputPassword2" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword2" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+         
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

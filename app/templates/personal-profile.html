@@ -1,369 +1,342 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- title need to be modified-->
-    <title>{{ title }} - Blog</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/personal-profile.css">
 
-</head>
+{% block title %}
+{% if title %}
+<title>{{ title }} - Blog</title>
+{% else %}
+<title>Welcome to Blog!</title>
+{% endif %}
+{% endblock %}
 
-<body>
-    <header class="p-3 bg-dark text-white fixed-top">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 mx-3 text-white text-decoration-none">
-                    <img alt="logo" src="https://placehold.co/133x40" class="rounded" />
-                </a>
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="#" class="nav-link px-2 text-white">Home</a></li>
-                    <li><a href="#" class="nav-link px-2 text-white">Rankings</a></li>
-                </ul>
 
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                    <input type="search" class="form-control form-control-dark" placeholder="Search..."
-                        aria-label="Search">
-                </form>
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/personal-profile.css') }}">
+{% endblock %}
 
-                <div class="text-end">
-                    <button type="button" class="btn btn-outline-light me-2">Login</button>
-                    <button type="button" class="btn btn-warning">Sign-up</button>
-                </div>
-            </div>
+
+{% block main %}
+<!-- self introduction part -->
+
+
+<div class="container-fluid self-intro">
+    <div class="row clearfix background-brown">
+        <div class="col-md-2 column">
         </div>
-    </header>
+        <div class="col-md-2 column">
+            <img alt="140x140" src="v3/default3.jpg" class="img-circle" />
+        </div>
+        <div class="col-md-5 column">
+            <h3 class="text-left">
+                {{ user.username }}
+            </h3>
 
-    <!-- self introduction part -->
-
-
-    <div class="container-fluid self-intro">
-        <div class="row clearfix background-brown">
-            <div class="col-md-2 column">
+            <div>
+                <!-- 旁边的badge不知道怎么添加，后期考虑？ -->
+                <ul class="list-inline list-style-none">
+                    <li class="list-inline-item">
+                        <p>Joined Aug 27, 2015</p>
+                    </li>
+                    <li class="list-inline-item">
+                        <p>145 best answers</p>
+                    </li>
+                    <li class="list-inline-item">
+                        <p>93 points</p>
+                    </li>
+                </ul>
             </div>
-            <div class="col-md-2 column">
-                <img alt="140x140" src="v3/default3.jpg" class="img-circle" />
+            <!-- 添加滚动条 -->
+            <div class="overflow-auto" style="max-height: 100px;">
+                <p class="text-left">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis dolor dicta, temporibus sequi
+                    qui asperiores alias possimus. Nostrum, quae quidem labore dolorem dolor mollitia repellendus
+                    impedit, iste nesciunt dicta ratione?Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                    Fuga quam ad adipisci. Dolor eligendi ratione harum adipisci, a non, rerum laboriosam
+                    reprehenderit hic sed accusantium itaque at modi eos! Excepturi.
+                </p>
             </div>
-            <div class="col-md-5 column">
-                <h3 class="text-left">
-                    {{ user.username }}
-                </h3>
 
-                <div>
-                    <!-- 旁边的badge不知道怎么添加，后期考虑？ -->
-                    <ul class="list-inline list-style-none">
-                        <li class="list-inline-item">
-                            <p>Joined Aug 27, 2015</p>
-                        </li>
-                        <li class="list-inline-item">
-                            <p>145 best answers</p>
-                        </li>
-                        <li class="list-inline-item">
-                            <p>93 points</p>
-                        </li>
-                    </ul>
-                </div>
-                <!-- 添加滚动条 -->
-                <div class="overflow-auto" style="max-height: 100px;">
-                    <p class="text-left">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis dolor dicta, temporibus sequi
-                        qui asperiores alias possimus. Nostrum, quae quidem labore dolorem dolor mollitia repellendus
-                        impedit, iste nesciunt dicta ratione?Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                        Fuga quam ad adipisci. Dolor eligendi ratione harum adipisci, a non, rerum laboriosam
-                        reprehenderit hic sed accusantium itaque at modi eos! Excepturi.
-                    </p>
-                </div>
-
-            </div>
-            <div class="col-md-3 column">
-            </div>
+        </div>
+        <div class="col-md-3 column">
         </div>
     </div>
+</div>
 
-    <!-- navbar -->
-    <div class="container">
-        <div class="row clearfix">
-            <div class="personal-profile-nav col-md-3 column">
-                <ul class="nav flex-column mt-4 mx-5">
-                    <li class="nav-item mb-1">
-                        <!-- bug: 加hover-orange但并没有产生效果 -->
-                        <a class="nav-link text-secondary hover-orange" href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                                <path
-                                    d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
-                                <path
-                                    d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
-                            </svg>
-                            <span class="Button-label">Posts</span>
-                            <span class="Button-badge">900</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mb-1">
-                        <a class="nav-link text-secondary" href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                                <path
-                                    d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
-                                <path
-                                    d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
-                            </svg>
+<!-- navbar -->
+<div class="container">
+    <div class="row clearfix">
+        <div class="personal-profile-nav col-md-3 column">
+            <ul class="nav flex-column mt-4 mx-5">
+                <li class="nav-item mb-1">
+                    <!-- bug: 加hover-orange但并没有产生效果 -->
+                    <a class="nav-link text-secondary hover-orange" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-nintendo-switch" viewBox="0 0 16 16">
+                            <path
+                                d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
+                            <path
+                                d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
+                        </svg>
+                        <span class="Button-label">Posts</span>
+                        <span class="Button-badge">900</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-1">
+                    <a class="nav-link text-secondary" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-nintendo-switch" viewBox="0 0 16 16">
+                            <path
+                                d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
+                            <path
+                                d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
+                        </svg>
 
-                            <span class="Button-label">Discussions</span>
-                            <span class="Button-badge">900</span>
+                        <span class="Button-label">Discussions</span>
+                        <span class="Button-badge">900</span>
 
-                        </a>
-                    </li>
-                    <li class="nav-item mb-1">
-                        <a class="nav-link text-secondary" href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                                <path
-                                    d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
-                                <path
-                                    d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
-                            </svg>
-                            <span class="Button-label">Likes</span>
-                            <span class="Button-badge">900</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mb-1">
-                        <a class="nav-link text-secondary" href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                                <path
-                                    d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
-                                <path
-                                    d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
-                            </svg>
-                            <span class="Button-label">Votes</span>
-                            <span class="Button-badge">900</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mb-1">
-                        <a class="nav-link text-secondary" href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                                <path
-                                    d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
-                                <path
-                                    d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
-                            </svg>
-                            <span class="Button-label">Mentions</span>
-                            <span class="Button-badge">900</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+                    </a>
+                </li>
+                <li class="nav-item mb-1">
+                    <a class="nav-link text-secondary" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-nintendo-switch" viewBox="0 0 16 16">
+                            <path
+                                d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
+                            <path
+                                d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
+                        </svg>
+                        <span class="Button-label">Likes</span>
+                        <span class="Button-badge">900</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-1">
+                    <a class="nav-link text-secondary" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-nintendo-switch" viewBox="0 0 16 16">
+                            <path
+                                d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
+                            <path
+                                d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
+                        </svg>
+                        <span class="Button-label">Votes</span>
+                        <span class="Button-badge">900</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-1">
+                    <a class="nav-link text-secondary" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-nintendo-switch" viewBox="0 0 16 16">
+                            <path
+                                d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
+                            <path
+                                d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
+                        </svg>
+                        <span class="Button-label">Mentions</span>
+                        <span class="Button-badge">900</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
 
 
-            <!-- post-list -->
-            <div class="col-md-9 column">
-                <div class="row clearfix">
-                    <div class="col-md-10 column row">
-                        <!-- beginning -->
-                        <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
-                            <p class=" text-secondary">title of the post</p>
-                            <div class="col-md-1 column ">
-                                <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
-                            </div>
-                            <div class="col-md-11">
-                                <ul class="list-inline list-style-none">
-                                    <li class="h6 list-inline-item list-style-none">Joel</li>
-                                    <li class="text-secondary list-inline-item">an hour ago</li>
-                                    <li class="text-secondary list-inline-item">Edited</li>
-                                </ul>
+        <!-- post-list -->
+        <div class="col-md-9 column">
+            <div class="row clearfix">
+                <div class="col-md-10 column row">
+                    <!-- beginning -->
+                    <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
+                        <p class=" text-secondary">title of the post</p>
+                        <div class="col-md-1 column ">
+                            <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
+                        </div>
+                        <div class="col-md-11">
+                            <ul class="list-inline list-style-none">
+                                <li class="h6 list-inline-item list-style-none">Joel</li>
+                                <li class="text-secondary list-inline-item">an hour ago</li>
+                                <li class="text-secondary list-inline-item">Edited</li>
+                            </ul>
 
-                                <h5>
-                                    Title-title-title-title
-                                </h5>
+                            <h5>
+                                Title-title-title-title
+                            </h5>
 
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at ligula nec metus
+                                dictum blandit ac id tellus. Fusce sed magna vitae turpis ultrices malesuada. In hac
+                                habitasse platea dictumst...
+                            </p>
+                            <div class="list-reply-margin">
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at ligula nec metus
-                                    dictum blandit ac id tellus. Fusce sed magna vitae turpis ultrices malesuada. In hac
-                                    habitasse platea dictumst...
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
+                                    </svg> Jessie replied to this.
                                 </p>
-                                <div class="list-reply-margin">
-                                    <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                            fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                        </svg> Jessie replied to this.
-                                    </p>
-                                    <!-- 引用的icon具体再查 -->
-                                    <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                            fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                        </svg> May likes this.
-                                    </p>
-                                </div>
+                                <!-- 引用的icon具体再查 -->
+                                <p>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
+                                    </svg> May likes this.
+                                </p>
                             </div>
                         </div>
-                        <!-- ending -->
+                    </div>
+                    <!-- ending -->
 
 
-                        <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
-                            <p class=" text-secondary">title of the post</p>
-                            <div class="col-md-1 column ">
-                                <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
-                            </div>
-                            <div class="col-md-11">
-                                <ul class="list-inline list-style-none">
-                                    <li class="h6 list-inline-item list-style-none">Joel</li>
-                                    <li class="text-secondary list-inline-item">an hour ago</li>
-                                    <li class="text-secondary list-inline-item">Edited</li>
-                                </ul>
-
-                                <h5>
-                                    Title-title-title-title
-                                </h5>
-
-                                <p>
-                                    <button class="rounded border-0">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                            fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                        </svg>
-                                        reply to David</button>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at ligula nec metus
-                                    dictum blandit ac id tellus. Fusce sed magna vitae turpis ultrices malesuada. In hac
-                                    habitasse platea dictumst...
-                                </p>
-                                <div class="list-reply-margin">
-                                    <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                            fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                        </svg> Jessie replied to this.
-                                    </p>
-                                    <!-- 引用的icon具体再查 -->
-                                    <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                            fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                        </svg> May likes this.
-                                    </p>
-                                </div>
-                            </div>
+                    <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
+                        <p class=" text-secondary">title of the post</p>
+                        <div class="col-md-1 column ">
+                            <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
                         </div>
+                        <div class="col-md-11">
+                            <ul class="list-inline list-style-none">
+                                <li class="h6 list-inline-item list-style-none">Joel</li>
+                                <li class="text-secondary list-inline-item">an hour ago</li>
+                                <li class="text-secondary list-inline-item">Edited</li>
+                            </ul>
 
-                        <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
-                            <p class=" text-secondary">title of the post</p>
-                            <div class="col-md-1 column ">
-                                <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
-                            </div>
-                            <div class="col-md-11">
-                                <ul class="list-inline list-style-none">
-                                    <li class="h6 list-inline-item list-style-none">Joel</li>
-                                    <li class="text-secondary list-inline-item">an hour ago</li>
-                                    <li class="text-secondary list-inline-item">Edited</li>
-                                </ul>
+                            <h5>
+                                Title-title-title-title
+                            </h5>
 
-                                <h5>
-                                    Title-title-title-title
-                                </h5>
-
+                            <p>
+                                <button class="rounded border-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
+                                    </svg>
+                                    reply to David</button>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at ligula nec metus
+                                dictum blandit ac id tellus. Fusce sed magna vitae turpis ultrices malesuada. In hac
+                                habitasse platea dictumst...
+                            </p>
+                            <div class="list-reply-margin">
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at ligula nec metus
-                                    dictum blandit ac id tellus. Fusce sed magna vitae turpis ultrices malesuada. In hac
-                                    habitasse platea dictumst...
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
+                                    </svg> Jessie replied to this.
                                 </p>
-                                <div class="list-reply-margin">
-                                    <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                            fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                        </svg> Jessie replied to this.
-                                    </p>
-                                    <!-- 引用的icon具体再查 -->
-                                    <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                            fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                        </svg> May likes this.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ending -->
-
-
-                        <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
-                            <p class=" text-secondary">title of the post</p>
-                            <div class="col-md-1 column ">
-                                <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
-                            </div>
-                            <div class="col-md-11">
-                                <ul class="list-inline list-style-none">
-                                    <li class="h6 list-inline-item list-style-none">Joel</li>
-                                    <li class="text-secondary list-inline-item">an hour ago</li>
-                                    <li class="text-secondary list-inline-item">Edited</li>
-                                </ul>
-
-                                <h5>
-                                    Title-title-title-title
-                                </h5>
-
+                                <!-- 引用的icon具体再查 -->
                                 <p>
-                                    <button class="rounded border-0">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                            fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                        </svg>
-                                        reply to David</button>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at ligula nec metus
-                                    dictum blandit ac id tellus. Fusce sed magna vitae turpis ultrices malesuada. In hac
-                                    habitasse platea dictumst...
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
+                                    </svg> May likes this.
                                 </p>
-                                <div class="list-reply-margin">
-                                    <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                            fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                        </svg> Jessie replied to this.
-                                    </p>
-                                    <!-- 引用的icon具体再查 -->
-                                    <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                            fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                        </svg> May likes this.
-                                    </p>
-                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-2 column">
                         </div>
                     </div>
 
+                    <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
+                        <p class=" text-secondary">title of the post</p>
+                        <div class="col-md-1 column ">
+                            <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
+                        </div>
+                        <div class="col-md-11">
+                            <ul class="list-inline list-style-none">
+                                <li class="h6 list-inline-item list-style-none">Joel</li>
+                                <li class="text-secondary list-inline-item">an hour ago</li>
+                                <li class="text-secondary list-inline-item">Edited</li>
+                            </ul>
 
+                            <h5>
+                                Title-title-title-title
+                            </h5>
+
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at ligula nec metus
+                                dictum blandit ac id tellus. Fusce sed magna vitae turpis ultrices malesuada. In hac
+                                habitasse platea dictumst...
+                            </p>
+                            <div class="list-reply-margin">
+                                <p>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
+                                    </svg> Jessie replied to this.
+                                </p>
+                                <!-- 引用的icon具体再查 -->
+                                <p>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
+                                    </svg> May likes this.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ending -->
+
+
+                    <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
+                        <p class=" text-secondary">title of the post</p>
+                        <div class="col-md-1 column ">
+                            <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
+                        </div>
+                        <div class="col-md-11">
+                            <ul class="list-inline list-style-none">
+                                <li class="h6 list-inline-item list-style-none">Joel</li>
+                                <li class="text-secondary list-inline-item">an hour ago</li>
+                                <li class="text-secondary list-inline-item">Edited</li>
+                            </ul>
+
+                            <h5>
+                                Title-title-title-title
+                            </h5>
+
+                            <p>
+                                <button class="rounded border-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
+                                    </svg>
+                                    reply to David</button>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at ligula nec metus
+                                dictum blandit ac id tellus. Fusce sed magna vitae turpis ultrices malesuada. In hac
+                                habitasse platea dictumst...
+                            </p>
+                            <div class="list-reply-margin">
+                                <p>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
+                                    </svg> Jessie replied to this.
+                                </p>
+                                <!-- 引用的icon具体再查 -->
+                                <p>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
+                                    </svg> May likes this.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 column">
+                    </div>
                 </div>
+
+
             </div>
         </div>
     </div>
+</div>
+
+{% endblock %}
 
 
-
-
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+{% block script %}
+{% endblock %}

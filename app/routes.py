@@ -18,21 +18,21 @@ def index():
 
     return render_template('index.html', title='Home', paginate=paginate)
 
-    # template for posts:
+    # template for posts(including the variable names used in HTML):
     # posts = [
     #     {
     #         'posttitle': 'Welcome to Portland',
     #         'author': {'username': 'David', 'avatar': 'https://placehold.co/50'},
     #         'body': 'Beautiful day in Portland!',
-    #         'posttags': 'Support',
-    #         'commentcount': '5'
+    #         'tag': 'Support',
+    #         'comment_count': '5'
     #     },
     #     {
     #         'posttitle': 'I love Avengers',
     #         'author': {'username': 'Joel', 'avatar': 'https://placehold.co/50'},
     #         'body': 'The Avengers movie was so cool!',
-    #         'posttags': 'Extensions',
-    #         'commentcount': '10'
+    #         'tag': 'Extensions',
+    #         'comment_count': '10'
     #     }
     # ]
     # return render_template('index.html', title='Home', posts=posts)
@@ -53,14 +53,14 @@ def search():
 
     return render_template('index.html', title='Home', paginate=paginate)
     
-    # template for search posts:
+    # template for search posts(including the variable names used in HTML):
     # posts = [
     #     {
     #         'posttitle': 'Search Results for ' + search_keywords,
     #         'author': {'username': 'David', 'avatar': 'https://placehold.co/50'},
     #         'body': 'Beautiful day in Portland!',
-    #         'posttags': 'Support',
-    #         'commentcount': '5'
+    #         'tag': 'Support',
+    #         'comment_count': '5'
     #     }
     # ]
     # return render_template('index.html', title='Search Results', posts=posts)

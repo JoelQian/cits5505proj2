@@ -1,0 +1,43 @@
+main {
+    margin-top: 110px;
+}
+
+@media (max-width: 991px) {
+    main {
+        margin-top: 260px;
+    }
+}
+
+.avatar {
+    height: 50px; border-radius: 50%;
+}
+
+.form-control,
+.ql-container {
+    height: auto;
+}
+
+.form-control {
+    border-radius: 7px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 10px;
+    box-shadow: 0 0.245rem 0.45rem rgba(0,0,0,.1);
+}
+
+#title {
+    height: 47px;
+}
+
+#editor {
+    height: 220px;
+}
+
+.postbtn {
+    text-align: center;
+}

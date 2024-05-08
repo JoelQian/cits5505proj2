@@ -18,7 +18,7 @@
 <div class="container">
     <div class="row clearfix">
         <div class="homepage-nav col-md-3 column">
-            <button type="button" class="btn btn-warning bg-gradient text-white px-3 mx-5">Start a
+            <button type="button" class="btn btn-warning bg-gradient text-white px-3 mx-5" id="newpostpageBtn">Start a
                 Discussion</button>
             <ul class="nav flex-column mt-4 mx-5">
                 <li class="nav-item mb-1">
@@ -157,12 +157,12 @@
                     <div class="row clearfix">
                         <div class="col-md-10 column row clearfix">
                             <div class="col-md-1 column">
-                                <img alt="50x50" src='{{ post.author.avatar }}' class="rounded-circle" />
+                                <img alt="50x50" src='{{ post.author.avatar }}' class="rounded-circle" style="width: 50px; height: 50px;" />
                             </div>
 
                             <div class="col-md-11">
                                 <h5>
-                                    {{ post.posttitle}}
+                                    {{ post.posttitle }}
                                 </h5>
                                 <p>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
@@ -212,4 +212,5 @@
 
 
 {% block script %}
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock %}

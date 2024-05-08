@@ -64,3 +64,17 @@ def search():
     #     }
     # ]
     # return render_template('index.html', title='Search Results', posts=posts)
+
+@app.route('/new-discussion')
+def newDiscussion():
+    # for 'GET' method, we need {{user.avatar}} to display the user's avatar
+    user = [
+        {
+            'avatar': 'https://placehold.co/50'
+        }
+    ]
+    return render_template('new-discussion.html', title='New Discussion', user=user)
+    # for 'POST' method, the 'name' attributes in the HTML submit form are:
+    #   'tag' - for user input of discussion tags
+    #   'title' - for user input of discussion title
+    #   'editor' - for user input of discussion content

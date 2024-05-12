@@ -1,32 +1,45 @@
-from datetime import datetime, timezone
-from typing import Optional
-import sqlalchemy as sa
-import sqlalchemy.orm as so
 from app import db
+from datetime import datetime, timezone
+from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
+
 
 class User(db.Model):
-    id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,
-                                                unique=True)
-    email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True,
-                                             unique=True)
-    password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
-
-    posts: so.WriteOnlyMapped['Post'] = so.relationship(
-        back_populates='author')
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(32), index=True, unique=True)
+    email = db.Column(db.String(64), index=True, unique=True)
+    password = db.Column(db.String(256))
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
 class Post(db.Model):
-    id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    body: so.Mapped[str] = so.mapped_column(sa.String(140))
-    timestamp: so.Mapped[datetime] = so.mapped_column(
-        index=True, default=lambda: datetime.now(timezone.utc))
-    user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id),
-                                               index=True)
-
-    author: so.Mapped[User] = so.relationship(back_populates='posts')
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.String(1024))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), index=True)
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.String(1024))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), index=True)
+
+    def __repr__(self):
+        return '<Comment {}>'.format(self.body)
+
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), index=True, unique=True)
+    
+    posts = db.relationship('Post', backref='category', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Category {}>'.format(self.name)

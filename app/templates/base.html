@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block title %}{% endblock %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
     {% block style %}{% endblock %}
 </head>
@@ -26,17 +25,14 @@
 
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="get" action="{{ url_for('search') }}">
                     <div class="input-group">
-                        <input type="search" class="form-control form-control-dark" placeholder="Search..."
-                            aria-label="Search" name="search_keywords">
+                        <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search" name="search_keywords">
                         <button class="btn btn-outline-light" type="submit">
                         </button>
                     </div>
                 </form>
                 <div class="text-end">
-                    <button type="button" id="loginButton" class="btn btn-outline-light me-2"
-                        data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Login</button>
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">
+                    <button type="button" id="loginButton" class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#ModalToggle">Login</button>
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                         Sign-up</button>
                 </div>
             </div>
@@ -48,30 +44,28 @@
     </main>
 
     <!-- login modal -->
-    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-        tabindex="-1">
+    <div class="modal fade" id="ModalToggle" aria-hidden="true" aria-labelledby="ModalToggleLabel" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Login</h1>
+                    <h1 class="modal-title fs-5" id="ModalToggleLabel">Login</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
                     <form>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp">
+                            <label for="InputEmail1" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="InputEmail1" aria-describedby="emailHelp">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1">
+                            <label for="InputPassword1" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="InputPassword1">
                         </div>
 
                         <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                            <input type="checkbox" class="form-check-input" id="Check1">
+                            <label class="form-check-label" for="Check1">Remember me</label>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Login</button>
@@ -80,28 +74,26 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Forget
+                    <button class="btn btn-primary" data-bs-target="#ModalToggle2" data-bs-toggle="modal">Forget
                         password?</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
-        tabindex="-1">
+    <div class="modal fade" id="ModalToggle2" aria-hidden="true" aria-labelledby="ModalToggleLabel2" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Reset password</h1>
+                    <h1 class="modal-title fs-5" id="ModalToggleLabel2">Reset password</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
                     <form>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label" aria-describedby="emailHelp">Email
+                            <label for="InputEmail1" class="form-label" aria-describedby="emailHelp">Email
                                 address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp">
+                            <input type="email" class="form-control" id="InputEmail1" aria-describedby="emailHelp">
                             <div id="emailHelp" class="form-text">Please enter your registered email address, and we
                                 will send a verification code to your email.</div>
                         </div>
@@ -116,8 +108,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" required>
+                            <label for="InputPassword1" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="InputPassword1" required>
 
                             <div id="passwordHelpBlock" class="form-text">
                                 Your password must be 8-20 characters long, contain letters and numbers, and must not
@@ -126,8 +118,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="exampleInputPassword2" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword2" required>
+                            <label for="InputPassword2" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="InputPassword2" required>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -135,75 +127,97 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to
+                    <button class="btn btn-primary" data-bs-target="#ModalToggle" data-bs-toggle="modal">Back to
                         login</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- sign-up modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Sign up</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+<!-- sign-up modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Sign up</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="signupForm" method="POST" action="/register">
+                    <div class="mb-3">
+                        <label for="InputUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="InputUsername" name="username" required>
+                    </div>
 
-                    <form>
-                        <div class="mb-3">
-                            <label for="exampleInputUsername" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="exampleInputUsername" required>
+                    <div class="mb-3">
+                        <label for="InputEmail1" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="InputEmail1" name="email" aria-describedby="emailHelp" required>
+                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="InputPassword3" class="form-label">Set password</label>
+                        <input type="password" class="form-control" id="InputPassword3" name="password" required>
+                        <div id="passwordHelpBlock" class="form-text">
+                            Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
                         </div>
+                    </div>
 
-
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" required>
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    <div class="mb-3 form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                        <label class="form-check-label" for="invalidCheck">
+                            Agree to terms and conditions
+                        </label>
+                        <div class="invalid-feedback">
+                            You must agree before submitting.
                         </div>
-                        <div class="mb-3">
-                            <label for="exampleInputPassword3" class="form-label">Set password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword3">
-                            <div id="passwordHelpBlock" class="form-text">
-                                Your password must be 8-20 characters long, contain letters and numbers, and must not
-                                contain spaces, special characters, or emoji.
-                            </div>
-                        </div>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="exampleInputPassword4" class="form-label"> Confirm password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword4">
-                        </div>
-
-                        <div class="mb-3 form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                            <label class="form-check-label" for="invalidCheck">
-                                Agree to terms and conditions
-                            </label>
-                            <div class="invalid-feedback">
-                                You must agree before submitting.
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit form</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
+                    <button type="submit" class="btn btn-primary">Submit form</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
+
+<script>
+    document.getElementById('signupForm').addEventListener('submit', async function(event) {
+        event.preventDefault();  // prevent the form from submitting
+
+        let form = event.target;
+        let formData = new FormData(form);
+
+        // send a POST request to the server
+        let response = await fetch('/register', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+        // request was successful
+        let result = await response.json();
+        if (result.code === 200) {
+            // server returns 200, registration is successful
+            alert(result.message);
+            $('#staticBackdrop').modal('hide');
+        } else {
+            // server returns other status code, registration failed
+            alert(result.message);
+        }
+    } else {
+        // request failed due to network error
+        alert('Bad network.');
+    }
+});
+</script>
+
+
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/base.js') }}"></script>
     {% block script %}{% endblock %}
 </body>

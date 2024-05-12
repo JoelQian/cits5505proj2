@@ -1,11 +1,19 @@
+import os
+import sys
+
 from flask import Flask
-from config import Config
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+
+WIN = sys.platform.startswith('win')
+if WIN:
+    prefix = 'sqlite:///'
+else:
+    prefix = 'sqlite:////'
 
 app = Flask(__name__)
-app.config.from_object(Config)
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(basedir, 'app.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
-from app import routes, models
+from app import routes

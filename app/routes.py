@@ -1,41 +1,30 @@
-from flask import render_template, request
+from flask import render_template, request, jsonify
 from app import app
-from app.models import Post
+from app.models import *
+
+@app.route('/register', methods=['POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+
+        # create a new user object
+        new_user = User(username=username, email=email, password=password)
+
+        # add the new user to the database
+        db.session.add(new_user)
+        db.session.commit()
+
+        return jsonify({'code': 200, 'message': 'User registered successfully!'})
 
 
 @app.route('/')
-
-
-@app.route('/index')
-
 def index():
-
     # flask for pagination:
-
     page = request.args.get('page', 1, type=int)
-
     paginate = Post.query.paginate(page=int(page), per_page=7)
-
     return render_template('index.html', title='Home', paginate=paginate)
-
-    # template for posts(including the variable names used in HTML):
-    # posts = [
-    #     {
-    #         'posttitle': 'Welcome to Portland',
-    #         'author': {'username': 'David', 'avatar': 'https://placehold.co/50'},
-    #         'body': 'Beautiful day in Portland!',
-    #         'tag': 'Support',
-    #         'comment_count': '5'
-    #     },
-    #     {
-    #         'posttitle': 'I love Avengers',
-    #         'author': {'username': 'Joel', 'avatar': 'https://placehold.co/50'},
-    #         'body': 'The Avengers movie was so cool!',
-    #         'tag': 'Extensions',
-    #         'comment_count': '10'
-    #     }
-    # ]
-    # return render_template('index.html', title='Home', posts=posts)
 
 @app.route('/personal-profile')
 def personalProfile():
@@ -53,18 +42,6 @@ def search():
 
     return render_template('index.html', title='Home', paginate=paginate)
     
-    # template for search posts(including the variable names used in HTML):
-    # posts = [
-    #     {
-    #         'posttitle': 'Search Results for ' + search_keywords,
-    #         'author': {'username': 'David', 'avatar': 'https://placehold.co/50'},
-    #         'body': 'Beautiful day in Portland!',
-    #         'tag': 'Support',
-    #         'comment_count': '5'
-    #     }
-    # ]
-    # return render_template('index.html', title='Search Results', posts=posts)
-
 @app.route('/new-discussion')
 def newDiscussion():
     # for 'GET' method, we need {{user.avatar}} to display the user's avatar

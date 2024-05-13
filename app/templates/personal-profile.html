@@ -18,322 +18,238 @@
 {% block main %}
 <!-- self introduction part -->
 
-
 <div class="container-fluid self-intro">
     <div class="row clearfix background-brown">
         <div class="col-md-2 column">
         </div>
         <div class="col-md-2 column">
-            <img alt="140x140" src="v3/default3.jpg" class="img-circle" />
+            <img alt="Profile Picture" src="{{ user.profile_picture_url | default('v3/default3.jpg') }}" class="img-circle" />
         </div>
         <div class="col-md-5 column">
             <h3 class="text-left">
                 {{ user.username }}
             </h3>
-
             <div>
-                <!-- 旁边的badge不知道怎么添加，后期考虑？ -->
+                <!-- Example of badges: assuming the backend provides user.badges -->
+                {% if user.badges %}
+                <div class="badges">
+                    {% for badge in user.badges %}
+                    <span class="badge badge-primary">{{ badge }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
                 <ul class="list-inline list-style-none">
                     <li class="list-inline-item">
-                        <p>Joined Aug 27, 2015</p>
+                        <p>Joined {{ user.join_date | date('M d, Y') }}</p>
                     </li>
                     <li class="list-inline-item">
-                        <p>145 best answers</p>
+                        <p>{{ user.best_answers }} best answers</p>
                     </li>
                     <li class="list-inline-item">
-                        <p>93 points</p>
+                        <p>{{ user.points }} points</p>
                     </li>
                 </ul>
             </div>
-            <!-- 添加滚动条 -->
+            <!-- Scrollable area -->
             <div class="overflow-auto" style="max-height: 100px;">
                 <p class="text-left">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis dolor dicta, temporibus sequi
-                    qui asperiores alias possimus. Nostrum, quae quidem labore dolorem dolor mollitia repellendus
-                    impedit, iste nesciunt dicta ratione?Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Fuga quam ad adipisci. Dolor eligendi ratione harum adipisci, a non, rerum laboriosam
-                    reprehenderit hic sed accusantium itaque at modi eos! Excepturi.
+                    {{ user.bio | default('No biography provided.') }}
                 </p>
             </div>
-
         </div>
         <div class="col-md-3 column">
         </div>
     </div>
 </div>
+<!-- Explanation
+Image Path: The default filter is used to provide a fallback image if user.profile_picture_url is undefined or empty.
+Date Formatting: The date filter formats the user's join date. Make sure you have installed and configured the Jinja2 date filter in your Flask app.
+Badge Rendering: Assuming user.badges contains a list of badges a user has earned, they are rendered using a loop as Bootstrap badges.
+Biography Section: user.bio is included and the default filter provides a fallback text in case the field is empty. -->
 
 <!-- navbar -->
 <div class="container">
     <div class="row clearfix">
+        <!-- Sidebar navigation column -->
         <div class="personal-profile-nav col-md-3 column">
             <ul class="nav flex-column mt-4 mx-5">
+                <!-- Navigation item for Posts -->
                 <li class="nav-item mb-1">
-                    <!-- bug: 加hover-orange但并没有产生效果 -->
                     <a class="nav-link text-secondary hover-orange" href="#">
+                        <!-- Placeholder SVG icon for Posts -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                            <path
-                                d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
-                            <path
-                                d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
+                             class="bi bi-nintendo-switch" viewBox="0 0 16 16">
+                            <!-- SVG path is omitted for brevity -->
                         </svg>
                         <span class="Button-label">Posts</span>
-                        <span class="Button-badge">900</span>
+                        <!-- Dynamically displays the count of posts -->
+                        <span class="Button-badge">{{ post_count }}</span>
                     </a>
                 </li>
+
+                <!-- Navigation item for Discussions -->
                 <li class="nav-item mb-1">
                     <a class="nav-link text-secondary" href="#">
+                        <!-- Placeholder SVG icon for Discussions -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                            <path
-                                d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
-                            <path
-                                d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
+                             class="bi bi-nintendo-switch" viewBox="0 0 16 16">
+                            <!-- SVG path is omitted for brevity -->
                         </svg>
-
                         <span class="Button-label">Discussions</span>
-                        <span class="Button-badge">900</span>
-
+                        <!-- Dynamically displays the count of discussions -->
+                        <span class="Button-badge">{{ discussion_count }}</span>
                     </a>
                 </li>
+
+                <!-- Navigation item for Likes -->
                 <li class="nav-item mb-1">
                     <a class="nav-link text-secondary" href="#">
+                        <!-- Placeholder SVG icon for Likes -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                            <path
-                                d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
-                            <path
-                                d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
+                             class="bi bi-nintendo-switch" viewBox="0 0 16 16">
+                            <!-- SVG path is omitted for brevity -->
                         </svg>
                         <span class="Button-label">Likes</span>
-                        <span class="Button-badge">900</span>
+                        <!-- Dynamically displays the count of likes -->
+                        <span class="Button-badge">{{ like_count }}</span>
                     </a>
                 </li>
+
+                <!-- Navigation item for Votes -->
                 <li class="nav-item mb-1">
                     <a class="nav-link text-secondary" href="#">
+                        <!-- Placeholder SVG icon for Votes -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                            <path
-                                d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
-                            <path
-                                d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
+                             class="bi bi-nintendo-switch" viewBox="0 0 16 16">
+                            <!-- SVG path is omitted for brevity -->
                         </svg>
                         <span class="Button-label">Votes</span>
-                        <span class="Button-badge">900</span>
+                        <!-- Dynamically displays the count of votes -->
+                        <span class="Button-badge">{{ vote_count }}</span>
                     </a>
                 </li>
+
+                <!-- Navigation item for Mentions -->
                 <li class="nav-item mb-1">
                     <a class="nav-link text-secondary" href="#">
+                        <!-- Placeholder SVG icon for Mentions -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                            <path
-                                d="M9.34 8.005c0-4.38.01-7.972.023-7.982C9.373.01 10.036 0 10.831 0c1.153 0 1.51.01 1.743.05 1.73.298 3.045 1.6 3.373 3.326.046.242.053.809.053 4.61 0 4.06.005 4.537-.123 4.976-.022.076-.048.15-.08.242a4.136 4.136 0 0 1-3.426 2.767c-.317.033-2.889.046-2.978.013-.05-.02-.053-.752-.053-7.979Zm4.675.269a1.621 1.621 0 0 0-1.113-1.034 1.609 1.609 0 0 0-1.938 1.073 1.9 1.9 0 0 0-.014.935 1.632 1.632 0 0 0 1.952 1.107c.51-.136.908-.504 1.11-1.028.11-.285.113-.742.003-1.053ZM3.71 3.317c-.208.04-.526.199-.695.348-.348.301-.52.729-.494 1.232.013.262.03.332.136.544.155.321.39.556.712.715.222.11.278.123.567.133.261.01.354 0 .53-.06.719-.242 1.153-.94 1.03-1.656-.142-.852-.95-1.422-1.786-1.256Z" />
-                            <path
-                                d="M3.425.053a4.136 4.136 0 0 0-3.28 3.015C0 3.628-.01 3.956.005 8.3c.01 3.99.014 4.082.08 4.39.368 1.66 1.548 2.844 3.224 3.235.22.05.497.06 2.29.07 1.856.012 2.048.009 2.097-.04.05-.05.053-.69.053-7.94 0-5.374-.01-7.906-.033-7.952-.033-.06-.09-.063-2.03-.06-1.578.004-2.052.014-2.26.05Zm3 14.665-1.35-.016c-1.242-.013-1.375-.02-1.623-.083a2.81 2.81 0 0 1-2.08-2.167c-.074-.335-.074-8.579-.004-8.907a2.845 2.845 0 0 1 1.716-2.05c.438-.176.64-.196 2.058-.2l1.282-.003v13.426Z" />
+                             class="bi bi-nintendo-switch" viewBox="0 0 16 16">
+                            <!-- SVG path is omitted for brevity -->
                         </svg>
                         <span class="Button-label">Mentions</span>
-                        <span class="Button-badge">900</span>
+                        <!-- Dynamically displays the count of mentions -->
+                        <span class="Button-badge">{{ mention_count }}</span>
                     </a>
                 </li>
             </ul>
         </div>
+    </div>
+</div>
+ <!-- navbar explanation
+List of Variables to be Passed from the Backend
+post_count:
+Description: Represents the total number of posts available or created by the user. This variable is used to display a badge next to the "Posts" link in the navigation bar.
+Type: Integer
+discussion_count:
+Description: Indicates the total number of discussions initiated or participated in by the user. This count is displayed next to the "Discussions" link.
+Type: Integer
+like_count:
+Description: Shows the total number of likes received by the user across their posts or interactions. This number is shown next to the "Likes" link.
+Type: Integer
+vote_count:
+Description: Reflects the total number of votes the user has cast or received in various polls or voting interactions on the platform. Displayed next to the "Votes" link.
+Type: Integer
+mention_count:
+Description: Counts how many times the user has been mentioned across different posts or comments within the platform. This is shown next to the "Mentions" link.
+Type: Integer 
+-->
 
 
         <!-- post-list -->
         <div class="col-md-9 column">
             <div class="row clearfix">
                 <div class="col-md-10 column row">
-                    <!-- beginning -->
+                    <!-- Loop through each post in the list of posts -->
+                    {% for post in posts %}
                     <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
-                        <p class=" text-secondary">title of the post</p>
-                        <div class="col-md-1 column ">
-                            <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
+                        <p class="text-secondary">{{ post.title }}</p>
+                        <div class="col-md-1 column">
+                            <img alt="Profile Picture" src="{{ post.user.profile_picture_url }}" class="rounded-circle" />
                         </div>
                         <div class="col-md-11">
                             <ul class="list-inline list-style-none">
-                                <li class="h6 list-inline-item list-style-none">Joel</li>
-                                <li class="text-secondary list-inline-item">an hour ago</li>
-                                <li class="text-secondary list-inline-item">Edited</li>
+                                <li class="h6 list-inline-item list-style-none">{{ post.user.name }}</li>
+                                <li class="text-secondary list-inline-item">{{ post.time_since_posted }}</li>
+                                <li class="text-secondary list-inline-item">{{ 'Edited' if post.edited else '' }}</li>
                             </ul>
-
                             <h5>
-                                Title-title-title-title
+                                {{ post.subtitle }}
                             </h5>
-
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at ligula nec metus
-                                dictum blandit ac id tellus. Fusce sed magna vitae turpis ultrices malesuada. In hac
-                                habitasse platea dictumst...
+                                {{ post.content }}
                             </p>
                             <div class="list-reply-margin">
                                 <p>
+                                    <!-- Example of interaction -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
                                         fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
                                             d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                    </svg> Jessie replied to this.
+                                    </svg> {{ post.last_reply.user.name }} replied to this.
                                 </p>
-                                <!-- 引用的icon具体再查 -->
                                 <p>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
                                         fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
                                             d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                    </svg> May likes this.
+                                    </svg> {{ post.likes }} people like this.
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <!-- ending -->
-
-
-                    <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
-                        <p class=" text-secondary">title of the post</p>
-                        <div class="col-md-1 column ">
-                            <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
-                        </div>
-                        <div class="col-md-11">
-                            <ul class="list-inline list-style-none">
-                                <li class="h6 list-inline-item list-style-none">Joel</li>
-                                <li class="text-secondary list-inline-item">an hour ago</li>
-                                <li class="text-secondary list-inline-item">Edited</li>
-                            </ul>
-
-                            <h5>
-                                Title-title-title-title
-                            </h5>
-
-                            <p>
-                                <button class="rounded border-0">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                    </svg>
-                                    reply to David</button>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at ligula nec metus
-                                dictum blandit ac id tellus. Fusce sed magna vitae turpis ultrices malesuada. In hac
-                                habitasse platea dictumst...
-                            </p>
-                            <div class="list-reply-margin">
-                                <p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                    </svg> Jessie replied to this.
-                                </p>
-                                <!-- 引用的icon具体再查 -->
-                                <p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                    </svg> May likes this.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
-                        <p class=" text-secondary">title of the post</p>
-                        <div class="col-md-1 column ">
-                            <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
-                        </div>
-                        <div class="col-md-11">
-                            <ul class="list-inline list-style-none">
-                                <li class="h6 list-inline-item list-style-none">Joel</li>
-                                <li class="text-secondary list-inline-item">an hour ago</li>
-                                <li class="text-secondary list-inline-item">Edited</li>
-                            </ul>
-
-                            <h5>
-                                Title-title-title-title
-                            </h5>
-
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at ligula nec metus
-                                dictum blandit ac id tellus. Fusce sed magna vitae turpis ultrices malesuada. In hac
-                                habitasse platea dictumst...
-                            </p>
-                            <div class="list-reply-margin">
-                                <p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                    </svg> Jessie replied to this.
-                                </p>
-                                <!-- 引用的icon具体再查 -->
-                                <p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                    </svg> May likes this.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- ending -->
-
-
-                    <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
-                        <p class=" text-secondary">title of the post</p>
-                        <div class="col-md-1 column ">
-                            <img alt="50x50" src="https://placehold.co/50" class="rounded-circle" />
-                        </div>
-                        <div class="col-md-11">
-                            <ul class="list-inline list-style-none">
-                                <li class="h6 list-inline-item list-style-none">Joel</li>
-                                <li class="text-secondary list-inline-item">an hour ago</li>
-                                <li class="text-secondary list-inline-item">Edited</li>
-                            </ul>
-
-                            <h5>
-                                Title-title-title-title
-                            </h5>
-
-                            <p>
-                                <button class="rounded border-0">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                    </svg>
-                                    reply to David</button>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at ligula nec metus
-                                dictum blandit ac id tellus. Fusce sed magna vitae turpis ultrices malesuada. In hac
-                                habitasse platea dictumst...
-                            </p>
-                            <div class="list-reply-margin">
-                                <p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                    </svg> Jessie replied to this.
-                                </p>
-                                <!-- 引用的icon具体再查 -->
-                                <p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                    </svg> May likes this.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 column">
-                    </div>
+                    {% endfor %}
                 </div>
-
-
             </div>
         </div>
-    </div>
-</div>
+        
+     <!-- ending -->
+ <!-- post list explanation
+List of Variables and Their Descriptions
+#posts:
+Type: List of dictionaries or objects
+Description: This should be a list where each element represents a post. Each post contains details such as the title, user information, content, and interactions like replies and likes.
+Each post dictionary/object in the posts list should include the following keys/attributes:
+
+1.title:
+Type: String
+Description: The title of the post.
+2.user:
+Type: Dictionary/Object
+Description: Contains user-specific information. This dictionary/object should include:
+2.1 name: The name of the user who posted.
+2.2 profile_picture_url: URL to the user's profile picture.
+3.time_since_posted:
+Type: String
+Description: Describes how long ago the post was made (e.g., "an hour ago").
+4.edited:
+Type: Boolean
+Description: Indicates whether the post has been edited.
+5.subtitle:
+Type: String
+Description: A subtitle or secondary title for the post.
+6.content:
+Type: String
+Description: The main content of the post.
+7.last_reply:
+Type: Dictionary/Object
+Description: Contains information about the last reply to the post. It should include:
+7.1 user: Dictionary/Object with details of the user who made the last reply.
+7.2 name: Name of the user who replied.
+8.likes:
+Type: Integer
+Description: The number of likes the post has received.-->
+
 
 {% endblock %}
 

@@ -39,12 +39,18 @@ def login():
         return jsonify({'code': 200, 'message': 'Login successful!'})
     return jsonify({'code': 400, 'message': 'Bad request!'})
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
 @app.route('/')
 def index():
     # flask for pagination:
     page = request.args.get('page', 1, type=int)
     paginate = Post.query.paginate(page=int(page), per_page=7)
-    return render_template('index.html', title='Home', paginate=paginate)
+    return render_template('index.html', title='Home', paginate=paginate, user=current_user)
 
 @app.route('/personal-profile')
 def personalProfile():

@@ -52,34 +52,56 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
-                    <form>
+                    <form id="loginForm">
                         <div class="mb-3">
-                            <label for="InputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="InputEmail1" aria-describedby="emailHelp">
+                            <label for="InputUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="InputUsername" name="username" aria-describedby="emailHelp" required>
                         </div>
                         <div class="mb-3">
                             <label for="InputPassword1" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="InputPassword1">
+                            <input type="password" class="form-control" id="InputPassword1" name="password" required>
                         </div>
-
+    
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="Check1">
                             <label class="form-check-label" for="Check1">Remember me</label>
                         </div>
-
-                        <button type="submit" class="btn btn-primary">Login</button>
+    
+                        <button type="button" class="btn btn-primary" onclick="submitLoginForm()">Login</button>
                     </form>
-
-
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-target="#ModalToggle2" data-bs-toggle="modal">Forget
-                        password?</button>
+                    <button class="btn btn-primary" data-bs-target="#ModalToggle2" data-bs-toggle="modal">Forgot password?</button>
                 </div>
             </div>
         </div>
     </div>
+    
+    <script>
+        function submitLoginForm() {
+            const form = document.getElementById('loginForm');
+            const formData = new FormData(form);
+    
+            fetch('/login', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+    </script>
+    
     <div class="modal fade" id="ModalToggle2" aria-hidden="true" aria-labelledby="ModalToggleLabel2" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

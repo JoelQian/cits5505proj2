@@ -1,5 +1,6 @@
 from flask import render_template, request, jsonify, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
+from sqlalchemy import desc
 from app import app
 from app.models import *
 
@@ -105,4 +106,5 @@ def newDiscussion():
 
 @app.route('/ranking-page')
 def rankingPage():
-    return render_template("ranking-page.html")
+    users = User.query.order_by(desc(User.credit)).all()
+    return render_template("ranking-page.html", title='Ranking-Page', users=users)

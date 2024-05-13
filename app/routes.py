@@ -99,10 +99,8 @@ def newDiscussion():
         new_post = Post(body=body, author_id=author_id, category_id=category_id)
         db.session.add(new_post)
         db.session.commit()
-        # get the id of the new post
-        post_id = new_post.id
 
-        return jsonify({'code': 200, 'post_id': post_id})
+        return jsonify({'code': 200, 'post_id': new_post.id})
 
 
 @app.route('/ranking-page')

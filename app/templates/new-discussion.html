@@ -59,7 +59,9 @@
                                         if (response.code === 200) {
                                             $('#resultMessage').html('<div class="alert alert-success" role="alert">Posted successfully!</div>');
                                             // go to the discussion page
-                                            window.location.href = '/discussion/' + response.post_id;
+                                            setTimeout(function () {
+                                                window.location.href = '/discussion/' + response.post_id;
+                                            }, 1000);
 
                                         } else {
                                             $('#resultMessage').html('<div class="alert alert-danger" role="alert">Error: ' + response.message + '</div>');

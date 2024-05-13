@@ -55,3 +55,9 @@ def newDiscussion():
     #   'tag' - for user input of discussion tags
     #   'title' - for user input of discussion title
     #   'editor' - for user input of discussion content
+
+  
+@app.route('/ranking-page')
+def rankingPage():
+     return render_template("ranking-page.html")
+    

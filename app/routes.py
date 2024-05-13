@@ -78,23 +78,31 @@ def search():
     return render_template('index.html', title='Home', paginate=paginate)
 
 
-@app.route('/new-discussion')
+@app.route('/new-discussion', methods=['GET', 'POST'])
 def newDiscussion():
     if request.method == 'GET':
         if not current_user.is_authenticated:
             return jsonify({'code': 201, 'message': 'Please login first!'})
+        categories = Category.query.all()
+        return render_template('new-discussion.html', categories=categories)
 
-    # for 'GET' method, we need {{user.avatar}} to display the user's avatar
-    user = [
-        {
-            'avatar': 'https://placehold.co/50'
-        }
-    ]
-    return render_template('new-discussion.html', title='New Discussion', user=user)
-    # for 'POST' method, the 'name' attributes in the HTML submit form are:
-    #   'tag' - for user input of discussion tags
-    #   'title' - for user input of discussion title
-    #   'editor' - for user input of discussion content
+    elif request.method == 'POST':
+        if not current_user.is_authenticated:
+            return jsonify({'code': 201, 'message': 'Please login first!'})
+
+        category_id = request.form['category_id']
+        title = request.form['title']
+        body = request.form['body']
+        
+        author_id = current_user.id
+
+        new_post = Post(body=body, author_id=author_id, category_id=category_id)
+        db.session.add(new_post)
+        db.session.commit()
+        # get the id of the new post
+        post_id = new_post.id
+
+        return jsonify({'code': 200, 'post_id': post_id})
 
 
 @app.route('/ranking-page')

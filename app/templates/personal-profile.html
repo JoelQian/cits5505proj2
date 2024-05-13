@@ -18,49 +18,54 @@
 {% block main %}
 <!-- self introduction part -->
 
-
 <div class="container-fluid self-intro">
     <div class="row clearfix background-brown">
         <div class="col-md-2 column">
         </div>
         <div class="col-md-2 column">
-            <img alt="140x140" src="v3/default3.jpg" class="img-circle" />
+            <img alt="Profile Picture" src="{{ user.profile_picture_url | default('v3/default3.jpg') }}" class="img-circle" />
         </div>
         <div class="col-md-5 column">
             <h3 class="text-left">
                 {{ user.username }}
             </h3>
-
             <div>
-                <!-- 旁边的badge不知道怎么添加，后期考虑？ -->
+                <!-- Example of badges: assuming the backend provides user.badges -->
+                {% if user.badges %}
+                <div class="badges">
+                    {% for badge in user.badges %}
+                    <span class="badge badge-primary">{{ badge }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
                 <ul class="list-inline list-style-none">
                     <li class="list-inline-item">
-                        <p>Joined Aug 27, 2015</p>
+                        <p>Joined {{ user.join_date | date('M d, Y') }}</p>
                     </li>
                     <li class="list-inline-item">
-                        <p>145 best answers</p>
+                        <p>{{ user.best_answers }} best answers</p>
                     </li>
                     <li class="list-inline-item">
-                        <p>93 points</p>
+                        <p>{{ user.points }} points</p>
                     </li>
                 </ul>
             </div>
-            <!-- 添加滚动条 -->
+            <!-- Scrollable area -->
             <div class="overflow-auto" style="max-height: 100px;">
                 <p class="text-left">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis dolor dicta, temporibus sequi
-                    qui asperiores alias possimus. Nostrum, quae quidem labore dolorem dolor mollitia repellendus
-                    impedit, iste nesciunt dicta ratione?Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Fuga quam ad adipisci. Dolor eligendi ratione harum adipisci, a non, rerum laboriosam
-                    reprehenderit hic sed accusantium itaque at modi eos! Excepturi.
+                    {{ user.bio | default('No biography provided.') }}
                 </p>
             </div>
-
         </div>
         <div class="col-md-3 column">
         </div>
     </div>
 </div>
+<!-- Explanation
+Image Path: The default filter is used to provide a fallback image if user.profile_picture_url is undefined or empty.
+Date Formatting: The date filter formats the user's join date. Make sure you have installed and configured the Jinja2 date filter in your Flask app.
+Badge Rendering: Assuming user.badges contains a list of badges a user has earned, they are rendered using a loop as Bootstrap badges.
+Biography Section: user.bio is included and the default filter provides a fallback text in case the field is empty. -->
 
 <!-- navbar -->
 <div class="container">

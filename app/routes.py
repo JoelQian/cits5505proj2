@@ -3,6 +3,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from app import app
 from app.models import *
 
+
 @app.route('/register', methods=['POST'])
 def register():
     if request.method == 'POST':
@@ -20,6 +21,7 @@ def register():
 
         return jsonify({'code': 200, 'message': 'User registered successfully!'})
     return jsonify({'code': 400, 'message': 'Bad request!'})
+
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -39,23 +41,29 @@ def login():
         return jsonify({'code': 200, 'message': 'Login successful!'})
     return jsonify({'code': 400, 'message': 'Bad request!'})
 
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
+
 @app.route('/')
 def index():
     # flask for pagination:
     page = request.args.get('page', 1, type=int)
     paginate = Post.query.paginate(page=int(page), per_page=7)
-    return render_template('index.html', title='Home', paginate=paginate, user=current_user)
+    categories = Category.query.all()
+
+    return render_template('index.html', user=current_user, categories=categories, paginate=paginate)
+
 
 @app.route('/personal-profile')
 def personalProfile():
     user = {'username': 'Joel'}
     return render_template('personal-profile.html', title='Profile', user=user)
+
 
 @app.route('/search')
 def search():
@@ -64,16 +72,18 @@ def search():
     page = request.args.get('page', 1, type=int)
     search_keywords = request.args.get('search_keywords')
 
-    paginate = Post.query.filter(Post.body.contains(search_keywords)).paginate(page=page, per_page=7)
+    paginate = Post.query.filter(Post.body.contains(
+        search_keywords)).paginate(page=page, per_page=7)
 
     return render_template('index.html', title='Home', paginate=paginate)
-    
+
+
 @app.route('/new-discussion')
 def newDiscussion():
     if request.method == 'GET':
         if not current_user.is_authenticated:
             return jsonify({'code': 201, 'message': 'Please login first!'})
-            
+
     # for 'GET' method, we need {{user.avatar}} to display the user's avatar
     user = [
         {
@@ -86,8 +96,7 @@ def newDiscussion():
     #   'title' - for user input of discussion title
     #   'editor' - for user input of discussion content
 
-  
+
 @app.route('/ranking-page')
 def rankingPage():
-     return render_template("ranking-page.html")
-    
+    return render_template("ranking-page.html")

@@ -9,6 +9,7 @@ class User(db.Model):
     username = db.Column(db.String(32), index=True, unique=True)
     email = db.Column(db.String(64), index=True, unique=True)
     password = db.Column(db.String(256))
+    credit = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -20,6 +21,7 @@ class Post(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), index=True)
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
+    is_solved = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)

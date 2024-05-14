@@ -22,7 +22,7 @@
                 </a>
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
-                    <li><a href="#" class="nav-link px-2 text-white">Rankings</a></li>
+                    <li><a href="ranking-page" class="nav-link px-2 text-white">Rankings</a></li>
                 </ul>
 
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="get" action="{{ url_for('search') }}">
@@ -35,7 +35,7 @@
                 <div class="text-end">
                     {% if current_user.is_authenticated %}
                     <div class="user-info">
-                        <span class="text-light me-3">Welcome, {{ current_user.username }}</span>
+                        <span class="text-light me-3">Welcome, <a href="{{ url_for('personalProfile') }}">{{ current_user.username }}</a></span>
                         <span class="text-light me-3">Credits: {{ current_user.credit }}</span>
                         <a class="btn btn-warning" href="{{ url_for('logout') }}">Log Out</a>
                     </div>                    

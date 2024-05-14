@@ -3,6 +3,8 @@ from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy import desc
 from app import app
 from app.models import *
+import hashlib
+
 
 
 @app.route('/register', methods=['POST'])
@@ -62,8 +64,7 @@ def index():
 
 @app.route('/personal-profile')
 def personalProfile():
-    user = {'username': 'Joel'}
-    return render_template('personal-profile.html', title='Profile', user=user)
+    return render_template('personal-profile.html', title='Personal Profile', user=current_user)
 
 
 @app.route('/search')
@@ -104,11 +105,20 @@ def newDiscussion():
         return jsonify({'code': 200, 'post_id': new_post.id})
 
 
+def robohash_url(text):
+    return f"https://robohash.org/{text}"
+
+
 @app.route('/ranking-page')
 def rankingPage():
     users = User.query.order_by(desc(User.credit)).all()
+    for user in users:
+        user.robohash_url = robohash_url(user.email)
     return render_template("ranking-page.html", title='Ranking-Page', users=users)
  
-@app.route('/post-details')
-def postDetails():
-     return render_template("post-details.html")
+@app.route('/post-details/<int:post_id>')
+def postDetails(post_id):
+    post = Post.query.get_or_404(post_id)
+    comments = Comment.query.filter_by(post_id=post_id).all()
+    
+    return render_template("post-details.html", title='Post details', post=post, comments=comments)

@@ -23,7 +23,7 @@
         <div class="col-md-2 column">
         </div>
         <div class="col-md-2 column">
-            <img alt="Profile Picture" src="{{ user.profile_picture_url | default('v3/default3.jpg') }}" class="img-circle" />
+            <img alt="Profile Picture" src="https://robohash.org/{{ user.email }}" class="img-circle" />
         </div>
         <div class="col-md-5 column">
             <h3 class="text-left">
@@ -40,20 +40,20 @@
                 {% endif %}
                 <ul class="list-inline list-style-none">
                     <li class="list-inline-item">
-                        <p>Joined {{ user.join_date | date('M d, Y') }}</p>
+
                     </li>
                     <li class="list-inline-item">
-                        <p>{{ user.best_answers }} best answers</p>
+
                     </li>
                     <li class="list-inline-item">
-                        <p>{{ user.points }} points</p>
+                        <p>{{ user.credit }} points</p>
                     </li>
                 </ul>
             </div>
             <!-- Scrollable area -->
             <div class="overflow-auto" style="max-height: 100px;">
                 <p class="text-left">
-                    {{ user.bio | default('No biography provided.') }}
+                    
                 </p>
             </div>
         </div>

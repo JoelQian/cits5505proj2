@@ -14,7 +14,8 @@
 <div class="container">
     <div class="row clearfix">
         <div class="homepage-nav col-md-3 column">
-            <a class="btn btn-warning bg-gradient text-white px-3 mx-5" href="{{ url_for('newDiscussion') }}">Start a Question</a>
+            <a class="btn btn-warning bg-gradient text-white px-3 mx-5" href="{{ url_for('newDiscussion') }}">Start a
+                Question</a>
             <ul class="nav flex-column mt-4 mx-5">
                 {% for category in categories %}
                 <li class="nav-item mb-1">
@@ -28,7 +29,8 @@
         </div>
         <div class="homepage-results col-md-9 column">
             <div class="dropdown">
-                <button type="button" class="btn btn-secondary bg-gradient dropdown-toggle" data-bs-toggle="dropdown">Latest</button>
+                <button type="button" class="btn btn-secondary bg-gradient dropdown-toggle"
+                    data-bs-toggle="dropdown">Latest</button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">Latest</a></li>
                     <li><a class="dropdown-item" href="#">Top</a></li>
@@ -51,16 +53,19 @@
                     <div class="row clearfix">
                         <div class="col-md-10 column row clearfix">
                             <div class="col-md-1 column">
-                                <img alt="50x50" src='https://placehold.co/50x50' class="rounded-circle" style="width: 50px; height: 50px;" />
+                                <img alt="50x50" src='https://placehold.co/50x50' class="rounded-circle"
+                                    style="width: 50px; height: 50px;" />
                             </div>
 
                             <div class="col-md-11">
                                 <h5>
-                                    {{ post.title }}
+                                    <a href="{{ url_for('postDetails', post_id=post.id) }}">{{ post.title }}</a>
                                 </h5>
                                 <p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                        class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
                                     </svg> Publish Date: <span id="humanTimestamp_{{ post.id }}"></span>
                                 </p>
                                 <p>
@@ -76,8 +81,10 @@
                                 </div>
                                 <div class="col-md-6 column text-secondary">
                                     <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
-                                            <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
+                                            <path
+                                                d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z" />
                                         </svg> {{ post.comment_count }}
                                     </p>
                                 </div>
@@ -88,11 +95,16 @@
                 {% endfor %}
             </ul>
             <ul class="pagination justify-content-center">
-                <li {% if not paginate.has_prev %}class="page-item disabled" {% else %}class="page-item" {% endif %}><a class="page-link" href="{{ url_for('index') }}?page={{ paginate.prev_num }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                <li {% if not paginate.has_prev %}class="page-item disabled" {% else %}class="page-item" {% endif %}><a
+                        class="page-link" href="{{ url_for('index') }}?page={{ paginate.prev_num }}"
+                        aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
                 {% for num in range(1, paginate.pages+1) %}
-                <li {% if num==paginate.page %}class="page-item active" {% else %}class="page-item" {% endif %}><a class="page-link" href="{{ url_for('index') }}?page={{ num }}">{{ num }}</a></li>
+                <li {% if num==paginate.page %}class="page-item active" {% else %}class="page-item" {% endif %}><a
+                        class="page-link" href="{{ url_for('index') }}?page={{ num }}">{{ num }}</a></li>
                 {% endfor %}
-                <li {% if not paginate.has_next %}class="page-item disabled" {% else %}class="page-item" {% endif %}><a class="page-link" href="{{ url_for('index') }}?page={{ paginate.next_num }}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                <li {% if not paginate.has_next %}class="page-item disabled" {% else %}class="page-item" {% endif %}><a
+                        class="page-link" href="{{ url_for('index') }}?page={{ paginate.next_num }}"
+                        aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
             </ul>
             {% endif %}
         </div>

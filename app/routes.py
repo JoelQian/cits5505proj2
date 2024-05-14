@@ -108,3 +108,7 @@ def newDiscussion():
 def rankingPage():
     users = User.query.order_by(desc(User.credit)).all()
     return render_template("ranking-page.html", title='Ranking-Page', users=users)
+ 
+@app.route('/post-details')
+def postDetails():
+     return render_template("post-details.html")

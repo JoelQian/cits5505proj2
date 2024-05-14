@@ -1,0 +1,43 @@
+main {
+    margin-top: 70px;
+}
+
+@media (max-width: 991px) {
+    main {
+        margin-top: 260px;
+    }
+    .homepage-nav {
+        display: none;
+    }
+}
+
+
+
+
+.header {
+    background-color: var(--bs-warning-bg-subtle); /* Using Bootstrap variable for background color */
+    color: var(--bs-warning-rgb); /* Default text color */
+    padding: 40px 0; /* Padding for aesthetic spacing */
+    text-align: center; /* Centering the title text */
+}
+
+.reply{
+    margin-top: 2rem;
+}
+.mt-2{
+    margin-top: 2rem; 
+}
+
+.mt-0[
+    margin-top: 0;
+]
+
+.author-content {
+    max-height: 300px; /* 设置最大高度，超出这个高度将出现滚动条 */
+    overflow-y: auto; /* 垂直方向超出容器时显示滚动条 */
+}
+
+.comment-content{
+    max-height: 100px; /* 设置最大高度，超出这个高度将出现滚动条 */
+    overflow-y: auto;
+}

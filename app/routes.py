@@ -60,4 +60,9 @@ def newDiscussion():
 @app.route('/ranking-page')
 def rankingPage():
      return render_template("ranking-page.html")
+ 
+@app.route('/post-details')
+def postDetails():
+     return render_template("post-details.html")
+    
     

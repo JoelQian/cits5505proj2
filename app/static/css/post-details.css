@@ -11,26 +11,24 @@ main {
     }
 }
 
-
-
-
 .header {
     background-color: var(--bs-warning-bg-subtle); /* Using Bootstrap variable for background color */
     color: var(--bs-warning-rgb); /* Default text color */
-    padding: 40px 0; /* Padding for aesthetic spacing */
+    padding: 60px 0; /* Padding for aesthetic spacing */
     text-align: center; /* Centering the title text */
 }
 
-.reply{
-    margin-top: 2rem;
+.post-title {
+    text-shadow: 2px 1px 3px rgba(0, 0, 0, 0.304); /* 添加阴影效果 */
 }
+
 .mt-2{
     margin-top: 2rem; 
 }
 
-.mt-0[
+.mt-0 {
     margin-top: 0;
-]
+}
 
 .author-content {
     max-height: 300px; /* 设置最大高度，超出这个高度将出现滚动条 */
@@ -38,6 +36,33 @@ main {
 }
 
 .comment-content{
-    max-height: 100px; /* 设置最大高度，超出这个高度将出现滚动条 */
+    /* max-height: 100px; 设置最大高度，超出这个高度将出现滚动条 */
     overflow-y: auto;
+}
+
+.sticky-btn {
+    position: relative;
+    z-index: 1000;
+    margin-top: 2rem;
+}
+
+.sticky {
+    position: fixed;
+    top: 76px;
+    z-index: 1000;
+}
+
+.form-control {
+    height: auto;
+    border-radius: 7px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+#body {
+    height: 220px;
+}
+
+.commentbtn {
+    text-align: center;
 }

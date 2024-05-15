@@ -18,44 +18,36 @@
 {% block main %}
 <!-- self introduction part -->
 
-<div class="container-fluid self-intro">
-    <div class="row clearfix background-brown">
+<div class="container-fluid self-intro background-brown text-muted">
+    <div class="row clearfix mt-5 mb-4">
         <div class="col-md-2 column">
         </div>
         <div class="col-md-2 column">
-            <img alt="Profile Picture" src="https://robohash.org/{{ user.email }}" class="img-circle" />
+            <img alt="Profile Picture" src="https://robohash.org/{{ user.email }}" class="rounded-circle title-ava mx-5" />
         </div>
-        <div class="col-md-5 column">
+        <div class="col-md-5 column personal-details">
             <h3 class="text-left">
                 {{ user.username }}
             </h3>
             <div>
-                <!-- Example of badges: assuming the backend provides user.badges -->
-                {% if user.badges %}
-                <div class="badges">
-                    {% for badge in user.badges %}
-                    <span class="badge badge-primary">{{ badge }}</span>
-                    {% endfor %}
-                </div>
-                {% endif %}
-                <ul class="list-inline list-style-none">
-                    <li class="list-inline-item">
-
-                    </li>
-                    <li class="list-inline-item">
-
-                    </li>
-                    <li class="list-inline-item">
-                        <p>{{ user.credit }} points</p>
-                    </li>
-                </ul>
+                <i class="bi bi-award"></i>
+                <span>{{ user.credit }} points</span>
             </div>
             <!-- Scrollable area -->
-            <div class="overflow-auto" style="max-height: 100px;">
+            {% if user.bio %}
+            <div class="overflow-auto mt-4" style="max-height: 100px;">
                 <p class="text-left">
-                    
+                    {{ user.bio }}
                 </p>
             </div>
+            {% else %}
+            <div class="overflow-auto mt-4" style="max-height: 100px;">
+                <p class="text-left">
+                    This user has not provided a bio yet...
+                </p>
+            </div>
+            {% endif %}
+
         </div>
         <div class="col-md-3 column">
         </div>
@@ -77,75 +69,24 @@ Biography Section: user.bio is included and the default filter provides a fallba
                 <li class="nav-item mb-1">
                     <a class="nav-link text-secondary hover-orange" href="#">
                         <!-- Placeholder SVG icon for Posts -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                            <!-- SVG path is omitted for brevity -->
-                        </svg>
+                        <i class="bi bi-chat"></i>
                         <span class="Button-label">Posts</span>
-                        <!-- Dynamically displays the count of posts -->
-                        <span class="Button-badge">{{ post_count }}</span>
+                        <!-- Dynamically displays the count of posts
+                        <span class="Button-badge"></span> -->
                     </a>
                 </li>
-
                 <!-- Navigation item for Discussions -->
                 <li class="nav-item mb-1">
-                    <a class="nav-link text-secondary" href="#">
+                    <a class="nav-link text-secondary hover-orange" href="#">
                         <!-- Placeholder SVG icon for Discussions -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                            <!-- SVG path is omitted for brevity -->
-                        </svg>
+                        <i class="bi bi-list-ul"></i>
                         <span class="Button-label">Discussions</span>
-                        <!-- Dynamically displays the count of discussions -->
-                        <span class="Button-badge">{{ discussion_count }}</span>
-                    </a>
-                </li>
-
-                <!-- Navigation item for Likes -->
-                <li class="nav-item mb-1">
-                    <a class="nav-link text-secondary" href="#">
-                        <!-- Placeholder SVG icon for Likes -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                            <!-- SVG path is omitted for brevity -->
-                        </svg>
-                        <span class="Button-label">Likes</span>
-                        <!-- Dynamically displays the count of likes -->
-                        <span class="Button-badge">{{ like_count }}</span>
-                    </a>
-                </li>
-
-                <!-- Navigation item for Votes -->
-                <li class="nav-item mb-1">
-                    <a class="nav-link text-secondary" href="#">
-                        <!-- Placeholder SVG icon for Votes -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                            <!-- SVG path is omitted for brevity -->
-                        </svg>
-                        <span class="Button-label">Votes</span>
-                        <!-- Dynamically displays the count of votes -->
-                        <span class="Button-badge">{{ vote_count }}</span>
-                    </a>
-                </li>
-
-                <!-- Navigation item for Mentions -->
-                <li class="nav-item mb-1">
-                    <a class="nav-link text-secondary" href="#">
-                        <!-- Placeholder SVG icon for Mentions -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             class="bi bi-nintendo-switch" viewBox="0 0 16 16">
-                            <!-- SVG path is omitted for brevity -->
-                        </svg>
-                        <span class="Button-label">Mentions</span>
-                        <!-- Dynamically displays the count of mentions -->
-                        <span class="Button-badge">{{ mention_count }}</span>
+                        <!-- Dynamically displays the count of discussions
+                        <span class="Button-badge">{{ discussion_count }}</span> -->
                     </a>
                 </li>
             </ul>
         </div>
-    </div>
-</div>
  <!-- navbar explanation
 List of Variables to be Passed from the Backend
 post_count:
@@ -167,52 +108,110 @@ Type: Integer
 
 
         <!-- post-list -->
-        <div class="col-md-9 column">
-            <div class="row clearfix">
-                <div class="col-md-10 column row">
+        <div class="col-md-9 column mt-3">
+            <!-- <div class="row clearfix">
+                <div class="col-md-10 column row"> -->
                     <!-- Loop through each post in the list of posts -->
-                    {% for post in posts %}
+                    <!-- {# for post in posts #}
                     <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
-                        <p class="text-secondary">{{ post.title }}</p>
+                        <p class="text-secondary">{# post.title #}</p>
                         <div class="col-md-1 column">
-                            <img alt="Profile Picture" src="{{ post.user.profile_picture_url }}" class="rounded-circle" />
+                            <img alt="Profile Picture" src='https://robohash.org/{# post.author.email #}' class="rounded-circle" style="width: 50px; height: 50px;" />
                         </div>
                         <div class="col-md-11">
                             <ul class="list-inline list-style-none">
-                                <li class="h6 list-inline-item list-style-none">{{ post.user.name }}</li>
-                                <li class="text-secondary list-inline-item">{{ post.time_since_posted }}</li>
-                                <li class="text-secondary list-inline-item">{{ 'Edited' if post.edited else '' }}</li>
+                                <li class="h6 list-inline-item list-style-none">{# post.author.username #}</li>
+                                <li class="text-secondary list-inline-item"><span id="humanTimestamp_{# post.id #}"></span></li>
+                                <li class="text-secondary list-inline-item">{# 'Edited' if post.edited else '' #}</li>
                             </ul>
                             <h5>
-                                {{ post.subtitle }}
+                                {# post.subtitle #}
                             </h5>
                             <p>
-                                {{ post.content }}
+                                {# post.content #}
                             </p>
                             <div class="list-reply-margin">
-                                <p>
+                                <p> -->
                                     <!-- Example of interaction -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
                                         fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
                                             d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                    </svg> {{ post.last_reply.user.name }} replied to this.
+                                    </svg> 
                                 </p>
                                 <p>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
                                         fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
                                             d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                    </svg> {{ post.likes }} people like this.
+                                    </svg> {# post.likes #} people like this.
                                 </p>
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
+                    {# endfor #}
+                </div>
+            </div> -->
+            {% if posts.total == 0 %}
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <h4 class="text-center mt-4 text-secondary" role="alert">
+                        This user hasn't posted yet.
+                    </h4>
                 </div>
             </div>
+            {% else %}
+            <ul class="discussion-list list-unstyled">
+
+                {% for post in posts %}
+                <li>
+                    <div class="row clearfix">
+                        <div class="col-md-10 column row clearfix">
+                            <div class="col-md-1 column">
+                                <img alt="50x50" src='https://robohash.org/{{ post.author.email }}' class="rounded-circle"
+                                    style="width: 50px; height: 50px;" />
+                            </div>
+
+                            <div class="col-md-11">
+                                <h5>
+                                    <a href="{{ url_for('postDetails', post_id=post.id) }}">{{ post.title }}</a>
+                                </h5>
+                                <p>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                        class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
+                                    </svg> Publish Date: <span id="humanTimestamp_{{ post.id }}"></span>
+                                </p>
+                                <p>
+                                    {{ post.body }}
+                                </p>
+                            </div>
+
+                        </div>
+                        <div class="col-md-2 column">
+                            <div class="row clearfix">
+                                <div class="col-md-6 column">
+                                    <span class="badge bg-info">{{ post.tag }}</span>
+                                </div>
+                                <div class="col-md-6 column text-secondary">
+                                    <p>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
+                                            <path
+                                                d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z" />
+                                        </svg> {{ post.comment_count }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
         </div>
-        
+                
      <!-- ending -->
  <!-- post list explanation
 List of Variables and Their Descriptions
@@ -249,10 +248,29 @@ Description: Contains information about the last reply to the post. It should in
 8.likes:
 Type: Integer
 Description: The number of likes the post has received.-->
+    </div>
+</div>
 
 
 {% endblock %}
 
 
 {% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% for post in posts %}
+            var timestamp_{{ post.id }} = '{{ post.timestamp }}';
+            var momentTimestamp_{{ post.id }} = moment(timestamp_{{ post.id }});
+            var now = moment();
+            var diffInHours_{{ post.id }} = now.diff(momentTimestamp_{{ post.id }}, 'hours');
+            var element_{{ post.id }} = document.getElementById('humanTimestamp_{{ post.id }}');
+
+            if (diffInHours_{{ post.id }} < 24) {
+                element_{{ post.id }}.textContent = momentTimestamp_{{ post.id }}.fromNow();
+            } else {
+                element_{{ post.id }}.textContent = momentTimestamp_{{ post.id }}.format('YYYY-MM-DD HH:mm:ss');
+            }
+        {% endfor %}
+    });
+</script>
 {% endblock %}

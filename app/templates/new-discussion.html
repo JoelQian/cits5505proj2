@@ -8,7 +8,7 @@
 {% block style %}
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/new-discussion.css') }}" />
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<!-- <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"> -->
 {% endblock %}
 
 
@@ -18,7 +18,7 @@
         <div class="col-md-8">
             <div class="card mb-5">
                 <div class="card-body mx-3">
-                    <img alt="avatar" src="https://placehold.co/50x50" class="rounded-circle mt-2 mb-1 mx-auto d-block" style="width: 50px; height: 50px;" />
+                    <img alt="avatar" src="https://robohash.org/{{ user.email }}" class="rounded-circle mt-2 mb-1 mx-auto d-block new-ava" />
                     <form id="newDiscussionForm">
                         <div class="form-group mb-4">
                             <label for="tag" class="mb-1">Choose a Category:</label>
@@ -85,6 +85,6 @@
 
 
 {% block script %}
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<!-- <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script> -->
 <!-- <script src="{{ url_for('static', filename='js/new-discussion.js') }}"></script> -->
 {% endblock %}

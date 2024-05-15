@@ -34,10 +34,16 @@ main {
     height: 47px;
 }
 
-#editor {
+#body {
     height: 220px;
 }
 
 .postbtn {
     text-align: center;
+}
+
+.new-ava {
+    width: 75px;
+    height: 75px;
+    border: rgba(0, 0, 0, 0.2) 2.5px solid;
 }

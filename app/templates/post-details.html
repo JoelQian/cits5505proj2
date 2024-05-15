@@ -18,67 +18,104 @@
 {% block main %}
 <!-- title header -->
 <div class="header">
-    <h1 class="danger-text">{{ post.title }}</h1>
+    <h5><span id="categoryTag" class="badge" data-category-id="{{ post.category.id }}">{{ post.category.name }}</span></h5>
+    <h1 class="danger-text post-title">{{ post.title }}</h1>
 </div>
+
 <div class="container">
     <div class="row clearfix">
-        <!-- comment section -->
-        <div class="col-12 col-md-3 column">
-            <button type="button" class="btn btn-warning bg-gradient text-white px-3 mx-5 reply" data-bs-toggle="modal"
-                data-bs-target="#ModalComment" id="newpostpageBtn">Post a comment
-            </button>
-        </div>
 
-        <!-- Author content -->
-        <div class="row  mt-2">
-            <div class="col-12 col-md-3"></div>
-            <div class="col-12 col-md-9">
-                <span class="--bs-danger-bg-subtle"><b>author:</b> {{post.author.username}}</span>
-                <div class="author-content p-3  mt-2" style="max-width: 90%; overflow-y: auto;">
-                    <p>{{post.body}}</p>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-md-2"></div>
-    </div>
-    <hr>
-
-    <!-- comment section -->
-    <div class="container">
-        <div class="row clearfix">
-            <!-- reply button -->
-            <div class="col-12 col-md-3 column">
-                <button type="button" class="btn btn-warning bg-gradient text-white px-3 mx-5 reply"
-                    data-bs-toggle="modal" data-bs-target="#ModalReply" id="newpostpageBtn">Reply
-                </button>
-            </div>
-
-            <!-- comment -->
-            <div class="row  mt-2">
-                <div class="col-12 col-md-3"></div>
-                <div class="col-12 col-md-9">
-                    <div class="comment-content p-3  mt-2" style="max-width: 90%; overflow-y: auto;">
-                        {% if comments %}
-                        {% for comment in comments %}
-                                <li>
-                                    <span class="--bs-danger-bg-subtle mt-0"><b>author: {{ comment.author.username }}</b></span>
-                                    <p> {{ comment.body }}</p>
-                                </li>
-                            {% endfor %}
-                        {% else %}
-                                <p>Please make the first comment</p>
-                        {% endif %}
+        <div class="col-md-9 column">
+            <!-- post section -->
+            <div class="row clearfix mt-5">
+                <!-- <div class="col-12 col-md-3 column">
+                    <button type="button" class="btn btn-warning bg-gradient text-white px-3 mx-5 reply" data-bs-toggle="modal"
+                        data-bs-target="#ModalComment" id="newpostpageBtn">Post a comment
+                    </button>
+                </div> -->
+                <!-- Author content -->
+                    <div class="col-md-1 offset-md-2">
+                        <img alt="Avatar" src='https://robohash.org/{{ post.author.email }}' class="rounded-circle" style="width: 60px; height: 60px; border: rgba(0, 0, 0, 0.2) 2.5px solid;" />
                     </div>
+                    <div class="col-md-9">
+                        <!-- <span class="--bs-danger-bg-subtle"><b>author:</b> {{post.author.username}}</span> -->
+                        <h4 class="--bs-danger-bg-subtle"><b> {{post.author.username}} </b> </h4>
+                        <div class="text-muted"><span id="humanTimestamp_{{ post.id }}"></span> Published</div>
+                        <div class="author-content p-3  mt-2" style="max-width: 90%; overflow-y: auto;">
+                            <p>{{post.body}}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <hr class="mt-4 mx-4 mb-5">
+            </div>
+
+            <!-- comment section -->
+            <div class="row clearfix">
+                <!-- reply button -->
+                <!-- comment -->
+                {% if comments %}
+                {% for comment in comments %}
+                <div class="row mt-3">
+                    <div class="col-md-1 offset-md-2">
+                        <img alt="Avatar" src='https://robohash.org/{{ comment.author.email }}' class="rounded-circle" style="width: 50px; height: 50px; border: rgba(0, 0, 0, 0.2) 1.5px solid;" />
+                    </div>
+                    <div class="col-md-9">
+                        <h5 class="--bs-danger-bg-subtle">{{comment.author.username}}</h5>
+                        <div class="author-content p-3 mt-2 text-muted" style="max-width: 90%; overflow-y: auto;">
+                            <p>{{ comment.body }}</p>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="row mt-3">
+                    <div class="col-md-10 offset-md-2 text-secondary">
+                        <h5>Please make the first comment !</h5>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+                {% endif %}
+                <div class="row mt-5 mb-5">
+                    <div class="col-md-1 offset-md-2">
+                        <img alt="Avatar" src='https://robohash.org/{{ user.email }}' class="rounded-circle" style="width: 50px; height: 50px; border: rgba(0, 0, 0, 0.2) 1.5px solid;" />
+                    </div>
+                    <div class="col-md-9">
+                        <h5 class="--bs-danger-bg-subtle">{{user.username}}</h5>
+                        <div class="author-content p-3 mt-2 text-muted" style="max-width: 90%; overflow-y: auto;">
+                            <p>Click the button to leave your reply ...</p>
+                        </div>
+                        <div class="col-12 col-md-3 column">
+                            <button type="button" class="btn btn-secondary bg-gradient text-white px-3 mx-5 newreplybtn" data-bs-toggle="modal" data-bs-target="#ModalReply" id="newpostpageBtn">Reply
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
                 </div>
 
+                    <!-- <div class="col-12 col-md-9 offset-md-3">
+                        <div class="comment-content p-3  mt-2" style="max-width: 90%; overflow-y: auto;">
+                            {% if comments %}
+                            {% for comment in comments %}
+                                    <li>
+                                        <span class="--bs-danger-bg-subtle mt-0"><b>author: {{ comment.author.username }}</b></span>
+                                        <p> {{ comment.body }}</p>
+                                    </li>
+                                    <hr>
+                                {% endfor %}
+                            {% else %}
+                                    <p>Please make the first comment</p>
+                            {% endif %} -->
             </div>
-            <div class="col-md-2"></div>
+
         </div>
 
-
-
-
+        <div class="col-md-3 column">
+            <button type="button" class="btn btn-warning bg-gradient text-white px-3 mx-5 sticky-btn" data-bs-toggle="modal"
+            data-bs-target="#ModalComment" id="newcommentBtn">Post a comment
+        </button>
+       </div>
 
         <!--Modal -->
         <div class="modal fade" id="ModalComment" aria-hidden="true" aria-labelledby="ModalToggleLabel" tabindex="-1">
@@ -90,18 +127,18 @@
                     </div>
                     <div class="modal-body">
                         <form>
-                            <div class="mb-3">
-                                <label for="commentText" class="form-label">Your Comment</label>
-                                <textarea class="form-control" id="commentText" rows="3"></textarea>
+                            <div class="form-group mb-4">
+                                <label for="comment-body" class="mt-1 mb-3">Your Comment:</label>
+                                <textarea id="comment-body" name="comment-body" class="form-control" rows="5" placeholder="Write your comment here..." required></textarea>
                             </div>
-
-                            <button type="submit" class="btn btn-primary">Submit Comment</button>
+                            <div class="form-group commentbtn">
+                                <button type="button" class="btn btn-secondary bg-gradient mb-2" id="commentBtn">Submit Comment</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="modal fade" id="ModalReply" aria-hidden="true" aria-labelledby="ModalToggleLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -111,17 +148,20 @@
                     </div>
                     <div class="modal-body">
                         <form>
-                            <div class="mb-3">
-                                <label for="commentText" class="form-label">Your Comment</label>
-                                <textarea class="form-control" id="commentText" rows="3"></textarea>
+                            <div class="form-group mb-4">
+                                <label for="comment-body" class="mt-1 mb-3">Your Reply:</label>
+                                <textarea id="comment-body" name="comment-body" class="form-control" rows="5" placeholder="Write your reply here..." required></textarea>
                             </div>
-
-                            <button type="submit" class="btn btn-primary">Submit Reply</button>
+                            <div class="form-group commentbtn">
+                                <button type="button" class="btn btn-secondary bg-gradient text-white mb-2" id="replyBtn">Submit Reply</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>    
 
 
 
@@ -130,4 +170,20 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
         <script src="{{ url_for('static', filename='js/new-discussion.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/post-details.js') }}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                    var timestamp_{{ post.id }} = '{{ post.timestamp }}';
+                    var momentTimestamp_{{ post.id }} = moment(timestamp_{{ post.id }});
+                    var now = moment();
+                    var diffInHours_{{ post.id }} = now.diff(momentTimestamp_{{ post.id }}, 'hours');
+                    var element_{{ post.id }} = document.getElementById('humanTimestamp_{{ post.id }}');
+        
+                    if (diffInHours_{{ post.id }} < 24) {
+                        element_{{ post.id }}.textContent = momentTimestamp_{{ post.id }}.fromNow();
+                    } else {
+                        element_{{ post.id }}.textContent = momentTimestamp_{{ post.id }}.format('YYYY-MM-DD HH:mm:ss');
+                    }
+            });
+        </script>
         {% endblock %}

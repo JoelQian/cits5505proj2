@@ -9,3 +9,8 @@ body {
     color: #222;
     overflow-x: hidden;
 }
+
+.logo {
+    height: 40px;
+    opacity: 0.95;
+}

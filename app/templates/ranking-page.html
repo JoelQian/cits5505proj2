@@ -39,14 +39,17 @@
                           <div class="col-md-9 column">
                               <h4>{{ user.username }}</h4>
                               <ul class="list-inline">
-                                <li class="text-secondary list-inline-item">
+                                <li class="text-secondary list-inline-item text-center mt-2">
+                                  <i class="bi bi-award"></i>
                                   <p>{{ user.credit }} credits</p>
                                 </li>
-                                <li class="text-secondary list-inline-item">
-                                  <p>{{ user.post_num }} posts</p>
+                                <li class="text-secondary list-inline-item text-center">
+                                  <i class="bi bi-pencil-square"></i>
+                                  <p>{{ user.posts|length }} posts</p>
                                 </li>
-                                <li class="text-secondary list-inline-item">
-                                  <p>{{ user.comment_num }} comments</p>
+                                <li class="text-secondary list-inline-item text-center">
+                                  <i class="bi bi-chat-right-text"></i>
+                                  <p>{{ user.comments.all()|length }} comments</p>
                                 </li>
                                 <!-- <li class="text-secondary list-inline-item">
                                   {# user.likes #} likes

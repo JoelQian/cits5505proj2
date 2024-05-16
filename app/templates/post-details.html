@@ -42,7 +42,7 @@
                         <h4 class="--bs-danger-bg-subtle"><b> {{post.author.username}} </b> </h4>
                         <div class="text-muted"><span id="humanTimestamp_{{ post.id }}"></span> Published</div>
                         <div class="author-content p-3  mt-2" style="max-width: 90%; overflow-y: auto;">
-                            <p>{{post.body}}</p>
+                            <h5>{{post.body}}</h5>
                         </div>
                     </div>
                     <div class="col-md-2"></div>
@@ -60,7 +60,10 @@
                         <img alt="Avatar" src='https://robohash.org/{{ comment.author.email }}' class="rounded-circle" style="width: 50px; height: 50px; border: rgba(0, 0, 0, 0.2) 1.5px solid;" />
                     </div>
                     <div class="col-md-9">
-                        <h5 class="--bs-danger-bg-subtle">{{comment.author.username}}</h5>
+                        <h5 class="--bs-danger-bg-subtle">
+                            &nbsp;
+                            <i class="bi bi-chat-left-quote"></i>
+                            {{comment.author.username}}</h5>
                         <div class="author-content p-3 mt-2 text-muted" style="max-width: 90%; overflow-y: auto;">
                             <p>{{ comment.body }}</p>
                         </div>
@@ -82,7 +85,8 @@
                         <img alt="Avatar" src='https://robohash.org/{{ user.email }}' class="rounded-circle" style="width: 50px; height: 50px; border: rgba(0, 0, 0, 0.2) 1.5px solid;" />
                     </div>
                     <div class="col-md-9">
-                        <h5 class="--bs-danger-bg-subtle">{{user.username}}</h5>
+                        <h3><i class="bi bi-chat-left-quote"></i></h3>
+                        <!-- <h5 class="--bs-danger-bg-subtle">{{user.username}}</h5> -->
                         <div class="author-content p-3 mt-2 text-muted" style="max-width: 90%; overflow-y: auto;">
                             <p>Click the button to leave your reply ...</p>
                         </div>

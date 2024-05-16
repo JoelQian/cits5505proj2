@@ -64,12 +64,23 @@ def index():
 
 @app.route('/personal-profile')
 def personalProfile():
-    return render_template('personal-profile.html', title='Personal Profile', user=current_user)
+    user = current_user
+    posts = Post.query.filter_by(author_id=user.id).all()
+    return render_template('personal-profile.html', title='Personal Profile', user=user, posts=posts)
+
+@app.route('/user-posts/<username>')
+def user_posts(username):
+    # Find the user by username
+    user = User.query.filter_by(username=username).first_or_404()
+
+    # Retrieve all posts by the user
+    user_posts = Post.query.filter_by(author=user).all()
+
+    return render_template('user_posts.html', user=user, user_posts=user_posts)
 
 
 @app.route('/search')
 def search():
-
     # flask for search paginate:
     page = request.args.get('page', 1, type=int)
     search_keywords = request.args.get('search_keywords')
@@ -86,7 +97,7 @@ def newDiscussion():
         if not current_user.is_authenticated:
             return jsonify({'code': 201, 'message': 'Please login first!'})
         categories = Category.query.all()
-        return render_template('new-discussion.html', categories=categories)
+        return render_template('new-discussion.html', categories=categories, user=current_user)
 
     elif request.method == 'POST':
         if not current_user.is_authenticated:
@@ -114,11 +125,11 @@ def rankingPage():
     users = User.query.order_by(desc(User.credit)).all()
     for user in users:
         user.robohash_url = robohash_url(user.email)
-    return render_template("ranking-page.html", title='Ranking-Page', users=users)
+    return render_template("ranking-page.html", title='Ranking page', users=users)
  
 @app.route('/post-details/<int:post_id>')
 def postDetails(post_id):
     post = Post.query.get_or_404(post_id)
     comments = Comment.query.filter_by(post_id=post_id).all()
     
-    return render_template("post-details.html", title='Post details', post=post, comments=comments)
+    return render_template("post-details.html", title='Post details', post=post, comments=comments, user=current_user)

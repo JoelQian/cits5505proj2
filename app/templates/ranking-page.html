@@ -9,44 +9,62 @@
 {% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ranking-page.css') }}" />
 {% endblock %}
 
 
 {% block main %}
-<!-- ranking-list -->
-<div class="col-md-9 column">
-  <div class="row clearfix">
-    {% for user in users %}
-    <div class="col-md-10 column row">
-      <!-- beginning -->
-      <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
-        <span class="text-secondary">{{ loop.index }}</span>
-        <div class="col-md-1 column">
-          <!-- Image link points to the personal profile page -->
+<div class="bg-light cv">
+  <header class="text-center bg-white p-4 shadow-sm">
+      <h1 class="danger-text py-5">Ranking</h1>
+  </header>
 
-          <img alt="Profile Picture" src= "{{ user.robohash_url }}" class="rounded-circle" />
-
-        </div>
-        <div class="col-md-11">
-          <ul class="list-inline">
-            <li class="h6 list-inline-item">{{ user.username }}</li>
-            <li class="text-secondary list-inline-item">
-              {{ user.credit }} credits
-            </li>
-            <li class="text-secondary list-inline-item">
-              {{ user.likes }} likes
-            </li>
-            <li class="text-secondary list-inline-item">
-              {{ user.collections }} collections
-            </li>
-          </ul>
-        </div>
+  <div class="container mt-5">
+      <div class="row clearfix">
+          <!-- ranking-list -->
+          <div class="col-md-6 offset-md-3 column">
+              <section class="p-4 mb-4 bg-white rounded shadow-sm box box-odd">
+                  <ul class="list-group list-group-flush">
+                    {% for user in users %}
+                    <li class="list-group-item mt-2 mb-3">
+                      <!-- beginning -->
+                      <div class="col-md-10 offset-md-1 column row clearfix list-margin border-0">
+                          <div class="col-md-1 column">
+                            <span class="text-secondary badge rounded-pill bg-warning">{{ loop.index }}</span>
+                          </div>
+                          <div class="col-md-2 column">
+                            <!-- Image link points to the personal profile page -->
+                            <img alt="Profile Picture" src= "{{ user.robohash_url }}" class="rounded-circle" style="height: 55px; width: 55px;"/>
+                          </div>
+                          <div class="col-md-9 column">
+                              <h4>{{ user.username }}</h4>
+                              <ul class="list-inline">
+                                <li class="text-secondary list-inline-item text-center mt-2">
+                                  <i class="bi bi-award"></i>
+                                  <p>{{ user.credit }} credits</p>
+                                </li>
+                                <li class="text-secondary list-inline-item text-center">
+                                  <i class="bi bi-pencil-square"></i>
+                                  <p>{{ user.posts|length }} posts</p>
+                                </li>
+                                <li class="text-secondary list-inline-item text-center">
+                                  <i class="bi bi-chat-right-text"></i>
+                                  <p>{{ user.comments.all()|length }} comments</p>
+                                </li>
+                                <!-- <li class="text-secondary list-inline-item">
+                                  {# user.likes #} likes
+                                </li>
+                                <li class="text-secondary list-inline-item">
+                                  {# user.collections #} collections
+                                </li> -->
+                              </ul>
+                          </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                  </ul>
+              </section>
+          </div>
       </div>
-    </div>
-    {% endfor %}
   </div>
-</div>
-</div>
-</div>
 {% endblock %}

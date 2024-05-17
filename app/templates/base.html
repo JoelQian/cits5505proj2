@@ -36,7 +36,12 @@
                 <div class="text-end">
                     {% if current_user.is_authenticated %}
                     <div class="user-info">
-                        <span class="text-light me-3">Welcome, <a href="{{ url_for('personalProfile') }}">{{ current_user.username }}</a></span>
+
+                        <span class="text-light me-3">Welcome 
+                            <img alt="Avatar" src='https://robohash.org/{{ current_user.email }}' class="rounded-circle" style="width: 40px; height: 40px; border: rgba(0, 0, 0, 0.2) 2.5px solid; margin-top: -5px;" />
+                            <a href="{{ url_for('personalProfile') }}" style="text-decoration: none; color: inherit;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='inherit'">{{ current_user.username }}</a>
+                    </span>
+
                         <span class="text-light me-3"><i class="bi bi-award-fill"></i> {{ current_user.credit }}</span>
                         <a class="btn btn-warning bg-gradient" href="{{ url_for('logout') }}">Log Out</a>
                     </div>                    

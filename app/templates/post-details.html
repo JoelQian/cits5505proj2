@@ -40,11 +40,14 @@
                     </div>
                     <div class="col-md-9">
                         <!-- <span class="--bs-danger-bg-subtle"><b>author:</b> {{post.author.username}}</span> -->
-                        <h4 class="--bs-danger-bg-subtle"><b> {{post.author.username}} </b> </h4>
+                        <div>
+                            <h3 class="--bs-danger-bg-subtle" style="display: inline;"><b> {{post.author.username}} </b></h3>
+                            <h5 style="display: inline; color:brown;"><i class="bi bi-award-fill"></i>{{ post.author.credit }}</h5>
+                        </div>
                         {% if post.author.bio %}
-                        <p class="text-muted">"{{ post.author.bio }}"</p>
+                        <p class="text-muted mt-1">"{{ post.author.bio }}"</p>
                         {% else %}
-                        <p class="text-muted">This user has not provided a bio yet...</p>
+                        <p class="text-muted mt-1">This user has not provided a bio yet...</p>
                         {% endif %}
                         <div class="text-muted">
                             <i class="bi bi-reply-fill"></i>
@@ -68,14 +71,17 @@
                         <img alt="Avatar" src='https://robohash.org/{{ comment.author.email }}' class="rounded-circle" style="width: 50px; height: 50px; border: rgba(0, 0, 0, 0.2) 1.5px solid;" />
                     </div>
                     <div class="col-md-9">
-                        <h5 class="--bs-danger-bg-subtle">
-                            &nbsp;
-                            <i class="bi bi-chat-left-quote"></i>
-                            {{comment.author.username}}</h5>
+                        <div>
+                            <h5 class="--bs-danger-bg-subtle" style="display: inline;">
+                                &nbsp;
+                                <i class="bi bi-chat-left-quote"></i>
+                                <b>{{comment.author.username}}</b></h5>
+                            <span style="display: inline; color: brown;">&nbsp;<i class="bi bi-award-fill"></i>{{ comment.author.credit }}</span>
+                        </div>
                             {% if comment.author.bio %}
-                            <p class="text-muted">&nbsp;"{{ comment.author.bio }}"</p>
+                            <p class="text-muted mt-1">&nbsp;"{{ comment.author.bio }}"</p>
                             {% else %}
-                            <p class="text-muted">&nbsp;This user has not provided a bio yet...</p>
+                            <p class="text-muted mt-1">&nbsp;This user has not provided a bio yet...</p>
                             {% endif %}
                         <div class="author-content p-3 mt-2" style="max-width: 90%; overflow-y: auto;">
                             <p>{{ comment.body }}</p>

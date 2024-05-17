@@ -3,6 +3,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy import desc
 from app import app
 from app.models import *
+from sqlalchemy import or_
 
 
 
@@ -65,10 +66,19 @@ def index():
     return render_template('index.html', user=current_user, categories=categories, paginate=paginate)
 
 
-@app.route('/personal-profile')
+@app.route('/personal-profile', methods=['GET', 'POST'])
 def personalProfile():
     user = current_user
     posts = Post.query.filter_by(author_id=user.id).all()
+
+    if request.method == 'POST':
+        new_bio = request.form.get('new_bio')
+        # 更新数据库中的用户 bio
+        user.bio = new_bio
+        db.session.commit()
+        # 重定向到个人资料页面，或者任何其他你想要跳转的页面
+        return redirect(url_for('personalProfile'))
+
     return render_template('personal-profile.html', title='Personal Profile', user=user, posts=posts)
 
 @app.route('/user-posts/<username>')
@@ -88,8 +98,8 @@ def search():
     page = request.args.get('page', 1, type=int)
     search_keywords = request.args.get('search_keywords')
 
-    paginate = Post.query.filter(Post.body.contains(
-        search_keywords)).paginate(page=page, per_page=7)
+    paginate = Post.query.filter(or_(Post.title.contains(search_keywords), Post.body.contains(search_keywords))).paginate(page=page, per_page=7)
+
 
     return render_template('index.html', title='Home', paginate=paginate)
 
@@ -114,6 +124,9 @@ def newDiscussion():
 
         new_post = Post(body=body, author_id=author_id, category_id=category_id, title=title)
         db.session.add(new_post)
+        db.session.commit()
+
+        current_user.credit += 5
         db.session.commit()
 
         return jsonify({'code': 200, 'post_id': new_post.id})
@@ -148,6 +161,9 @@ def postDetails(post_id):
 
         new_comment = Comment(body=body, author_id=author_id, post_id=post_id)
         db.session.add(new_comment)
+        db.session.commit()
+
+        current_user.credit += 1
         db.session.commit()
 
         return jsonify({'code': 200, 'comment_id': new_comment.id})

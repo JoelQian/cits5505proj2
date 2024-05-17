@@ -34,19 +34,55 @@
                 <span>{{ user.credit }} points</span>
             </div>
             <!-- Scrollable area -->
-            {% if user.bio %}
             <div class="overflow-auto mt-4" style="max-height: 100px;">
-                <p class="text-left">
+                <p id="bio-text" class="text-left">
+                    {% if user.bio %}
                     {{ user.bio }}
-                </p>
-            </div>
-            {% else %}
-            <div class="overflow-auto mt-4" style="max-height: 100px;">
-                <p class="text-left">
+                    {% else %}
                     This user has not provided a bio yet...
+                    {% endif %}
                 </p>
             </div>
-            {% endif %}
+            <button id="edit-btn" class="btn btn-primary mt-2">Edit Bio</button>
+            <form id="bio-form" method="post" action="/personal-profile" style="display: none;">
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+                <!-- Textarea with current bio content -->
+                <textarea id="new-bio" name="new_bio" class="form-control mt-4" rows="3" placeholder="Enter new bio"></textarea>
+                <!-- Submit button -->
+                <button type="submit" id="submit-btn" class="btn btn-primary mt-2">Submit</button>
+            </form>
+            
+            <script>
+                document.getElementById('edit-btn').addEventListener('click', function() {
+                    var bioText = document.getElementById('bio-text');
+                    var bioForm = document.getElementById('bio-form');
+                    var submitBtn = document.getElementById('submit-btn');
+                    var editBtn = document.getElementById('edit-btn');
+                    var newBioTextarea = document.getElementById('new-bio');
+                    
+                    if (bioForm.style.display === 'none') {
+                        // Switch to edit mode
+                        bioForm.style.display = 'block';
+                        bioText.style.display = 'none';
+                        submitBtn.textContent = 'Submit'; // Change button text to 'Submit'
+                        editBtn.style.display = 'none'; // Hide the 'Edit' button
+                        
+                        // Copy current bio content to textarea
+                        newBioTextarea.value = bioText.textContent.trim();
+                    } else {
+                        // Switch to view mode
+                        bioForm.style.display = 'none';
+                        bioText.style.display = 'block';
+                        submitBtn.textContent = 'Edit'; // Change button text back to 'Edit'
+                        editBtn.style.display = 'block'; // Show the 'Edit' button again
+                    }
+                });
+            </script>
+            
+            
+            
+            
+            
 
         </div>
         <div class="col-md-3 column">
@@ -165,7 +201,7 @@ Type: Integer
 
                                 <div class="col-md-11">
                                     <h5>
-                                        <a href="{{ url_for('postDetails', post_id=post.id) }}">{{ post.title }}</a>
+                                        <a href="{{ url_for('postDetails', post_id=post.id) }}" style="text-decoration: none; color: inherit;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='inherit'">{{ post.title }}</a>
                                     </h5>
                                     <p>
                                         <i class="bi bi-reply-fill"></i>

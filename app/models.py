@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(64), index=True, unique=True)
     password_hash = db.Column(db.String(256))
     credit = db.Column(db.Integer, default=0)
+    bio = db.Column(db.String(1024))
     posts = db.relationship('Post', backref='author', lazy=True)
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
 

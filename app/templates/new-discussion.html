@@ -57,7 +57,7 @@
                                     },
                                     success: function (response) {
                                         if (response.code === 200) {
-                                            $('#resultMessage').html('<div class="alert alert-success" role="alert">Posted successfully!</div>');
+                                            $('#resultMessage').html('<div class="alert alert-success" role="alert">Posted successfully! Credit+5!</div>');
                                             // go to the discussion page
                                             setTimeout(function () {
                                                 window.location.href = '/post-details/' + response.post_id;

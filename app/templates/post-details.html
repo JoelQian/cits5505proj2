@@ -41,7 +41,14 @@
                     <div class="col-md-9">
                         <!-- <span class="--bs-danger-bg-subtle"><b>author:</b> {{post.author.username}}</span> -->
                         <h4 class="--bs-danger-bg-subtle"><b> {{post.author.username}} </b> </h4>
-                        <div class="text-muted"><span id="humanTimestamp_{{ post.id }}"></span> Published</div>
+                        {% if post.author.bio %}
+                        <p class="text-muted">"{{ post.author.bio }}"</p>
+                        {% else %}
+                        <p class="text-muted">This user has not provided a bio yet...</p>
+                        {% endif %}
+                        <div class="text-muted">
+                            <i class="bi bi-reply-fill"></i>
+                            Publish Date: <span id="humanTimestamp_{{ post.id }}"></span></div>
                         <div class="author-content p-3  mt-2" style="max-width: 90%; overflow-y: auto;">
                             <h5>{{post.body}}</h5>
                         </div>
@@ -51,7 +58,7 @@
             </div>
 
             <!-- comment section -->
-            <div class="row clearfix">
+            <div class="row clearfix mb-5">
                 <!-- reply button -->
                 <!-- comment -->
                 {% if comments %}
@@ -65,7 +72,18 @@
                             &nbsp;
                             <i class="bi bi-chat-left-quote"></i>
                             {{comment.author.username}}</h5>
-                        <div class="text-muted"><span id="humanTimestamp_{{ comment.id }}"></span> Published</div>
+                            {% if comment.author.bio %}
+                            <p class="text-muted">&nbsp;"{{ comment.author.bio }}"</p>
+                            {% else %}
+                            <p class="text-muted">&nbsp;This user has not provided a bio yet...</p>
+                            {% endif %}
+                        <div class="author-content p-3 mt-2" style="max-width: 90%; overflow-y: auto;">
+                            <p>{{ comment.body }}</p>
+                        </div>
+                        <div class="text-muted" style="text-align: right;">
+                            <i class="bi bi-reply-fill"></i>
+                            <span id="humanTimestamp_{{ comment.id }}"></span> replied
+                        </div>
 
                         <script>
                             $(document).ready(function () {           
@@ -83,10 +101,6 @@
 
                             });
                         </script>
-
-                        <div class="author-content p-3 mt-2 text-muted" style="max-width: 90%; overflow-y: auto;">
-                            <p>{{ comment.body }}</p>
-                        </div>
                         <hr>
                     </div>
                     <div class="col-md-2"></div>

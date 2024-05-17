@@ -43,13 +43,13 @@
                     {% endif %}
                 </p>
             </div>
-            <button id="edit-btn" class="btn btn-primary mt-2">Edit Bio</button>
+            <button id="edit-btn" class="btn btn-secondary bg-gradient text-white mt-2">Edit Bio</button>
             <form id="bio-form" method="post" action="/personal-profile" style="display: none;">
                 <input type="hidden" name="user_id" value="{{ user.id }}">
                 <!-- Textarea with current bio content -->
                 <textarea id="new-bio" name="new_bio" class="form-control mt-4" rows="3" placeholder="Enter new bio"></textarea>
                 <!-- Submit button -->
-                <button type="submit" id="submit-btn" class="btn btn-primary mt-2">Submit</button>
+                <button type="submit" id="submit-btn" class="btn btn-secondary bg-gradient text-white mt-3">Submit</button>
             </form>
             
             <script>

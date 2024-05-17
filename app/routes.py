@@ -3,7 +3,6 @@ from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy import desc
 from app import app
 from app.models import *
-import hashlib
 
 
 
@@ -54,9 +53,13 @@ def logout():
 
 @app.route('/')
 def index():
-    # flask for pagination:
     page = request.args.get('page', 1, type=int)
-    paginate = Post.query.paginate(page=int(page), per_page=7)
+    category_id = request.args.get('category')
+    if category_id:
+        paginate = Post.query.filter_by(category_id=category_id).paginate(page=page, per_page=7)
+    else:
+        paginate = Post.query.paginate(page=page, per_page=7)
+
     categories = Category.query.all()
 
     return render_template('index.html', user=current_user, categories=categories, paginate=paginate)
@@ -106,10 +109,10 @@ def newDiscussion():
         category_id = request.form['category_id']
         title = request.form['title']
         body = request.form['body']
-        
+
         author_id = current_user.id
 
-        new_post = Post(body=body, author_id=author_id, category_id=category_id)
+        new_post = Post(body=body, author_id=author_id, category_id=category_id, title=title)
         db.session.add(new_post)
         db.session.commit()
 
@@ -127,9 +130,26 @@ def rankingPage():
         user.robohash_url = robohash_url(user.email)
     return render_template("ranking-page.html", title='Ranking page', users=users)
  
-@app.route('/post-details/<int:post_id>')
+@app.route('/post-details/<int:post_id>', methods=['GET', 'POST'])
 def postDetails(post_id):
-    post = Post.query.get_or_404(post_id)
-    comments = Comment.query.filter_by(post_id=post_id).all()
+
+    if request.method == 'GET':
+        post = Post.query.get_or_404(post_id)
+        comments = Comment.query.filter_by(post_id=post_id).all()
+        return render_template("post-details.html", title='Post details', post=post, comments=comments, user=current_user)
     
-    return render_template("post-details.html", title='Post details', post=post, comments=comments, user=current_user)
+    if request.method == 'POST':
+        if not current_user.is_authenticated:
+            return jsonify({'code': 201, 'message': 'Please login first!'})
+      
+        body = request.form['body']
+
+        author_id = current_user.id
+
+        new_comment = Comment(body=body, author_id=author_id, post_id=post_id)
+        db.session.add(new_comment)
+        db.session.commit()
+
+        return jsonify({'code': 200, 'comment_id': new_comment.id})
+    
+    

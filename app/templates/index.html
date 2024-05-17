@@ -17,6 +17,12 @@
             <a class="btn btn-warning bg-gradient text-white px-3 mx-5" href="{{ url_for('newDiscussion') }}">Start a
                 Question</a>
             <ul class="nav flex-column mt-4 mx-5">
+                <li class="nav-item mb-1">
+                    <a class="nav-link text-secondary hover-orange" href= "/">
+                        <i class="bi bi-archive-fill"></i>
+                        <span class="Button-label">All</span>
+                    </a>
+                </li>
                 {% for category in categories %}
                 <li class="nav-item mb-1">
                     <a class="nav-link text-secondary hover-orange" href="?category={{ category.id }}">
@@ -59,7 +65,7 @@
 
                             <div class="col-md-11">
                                 <h5>
-                                    <a href="{{ url_for('postDetails', post_id=post.id) }}">{{ post.title }}</a>
+                                    <a href="{{ url_for('postDetails', post_id=post.id) }}" style="text-decoration: none; color: inherit;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='inherit'">{{ post.title }}</a>
                                 </h5>
                                 <p>
                                     <i class="bi bi-reply-fill"></i>

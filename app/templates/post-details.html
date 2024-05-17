@@ -49,9 +49,12 @@
                         {% else %}
                         <p class="text-muted mt-1">This user has not provided a bio yet...</p>
                         {% endif %}
+                        {% if post.timestamp %}
                         <div class="text-muted">
                             <i class="bi bi-reply-fill"></i>
                             Publish Date: <span id="humanTimestamp_{{ post.id }}"></span></div>
+                        {% else %}
+                        {% endif %}
                         <div class="author-content p-3  mt-2" style="max-width: 90%; overflow-y: auto;">
                             <h5>{{post.body}}</h5>
                         </div>

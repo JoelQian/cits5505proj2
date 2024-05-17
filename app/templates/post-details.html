@@ -41,6 +41,8 @@
                     <div class="col-md-9">
                         <!-- <span class="--bs-danger-bg-subtle"><b>author:</b> {{post.author.username}}</span> -->
                         <h4 class="--bs-danger-bg-subtle"><b> {{post.author.username}} </b> </h4>
+                        <!-- add bio area-->
+                        <p class="text-muted">{{ post.author.bio }}</p>
                         <div class="text-muted"><span id="humanTimestamp_{{ post.id }}"></span> Published</div>
                         <div class="author-content p-3  mt-2" style="max-width: 90%; overflow-y: auto;">
                             <h5>{{post.body}}</h5>

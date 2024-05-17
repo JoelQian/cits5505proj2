@@ -49,9 +49,12 @@
                         {% else %}
                         <p class="text-muted mt-1">This user has not provided a bio yet...</p>
                         {% endif %}
+                        {% if post.timestamp %}
                         <div class="text-muted">
                             <i class="bi bi-reply-fill"></i>
                             Publish Date: <span id="humanTimestamp_{{ post.id }}"></span></div>
+                        {% else %}
+                        {% endif %}
                         <div class="author-content p-3  mt-2" style="max-width: 90%; overflow-y: auto;">
                             <h5>{{post.body}}</h5>
                         </div>
@@ -88,7 +91,11 @@
                         </div>
                         <div class="text-muted" style="text-align: right;">
                             <i class="bi bi-reply-fill"></i>
+                            {% if comment.timestamp %}
                             <span id="humanTimestamp_{{ comment.id }}"></span> replied
+                            {% else %}
+                            Replied
+                            {% endif %}
                         </div>
 
                         <script>
@@ -215,12 +222,8 @@
 
         {% endblock %}
         {% block script %}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-        <script src="{{ url_for('static', filename='js/new-discussion.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/post-details.js') }}"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
+            $(document).ready(function () {
                     var timestamp_{{ post.id }} = '{{ post.timestamp }}';
                     var momentTimestamp_{{ post.id }} = moment(timestamp_{{ post.id }});
                     var now = moment();
@@ -234,4 +237,8 @@
                     }
             });
         </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        <script src="{{ url_for('static', filename='js/new-discussion.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/post-details.js') }}"></script>
         {% endblock %}

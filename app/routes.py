@@ -4,11 +4,17 @@ from sqlalchemy import desc
 from app import app
 from app.models import *
 from sqlalchemy import or_
+from concurrent.futures import ThreadPoolExecutor
+import requests
+import os
+import time
 
 
+executor = ThreadPoolExecutor(2)
 
 @app.route('/register', methods=['POST'])
 def register():
+    # this route can only be accessed by POST method
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
@@ -29,12 +35,14 @@ def register():
 @app.route('/login', methods=['POST'])
 def login():
     if request.method == 'POST':
+        # retrieve the username and password from the request
         username = request.form['username']
         password = request.form['password']
 
         if not username or not password:
             return jsonify({'code': 201, 'message': 'Invalid input!'})
 
+        # find the user by username
         user = User.query.filter_by(username=username).first()
 
         if not user or not user.validate_password(password):
@@ -55,12 +63,17 @@ def logout():
 @app.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
+    # get the category id from the query string
     category_id = request.args.get('category')
     if category_id:
-        paginate = Post.query.filter_by(category_id=category_id).paginate(page=page, per_page=7)
+        # filter the posts by category id
+        paginate = Post.query.filter_by(
+            category_id=category_id).paginate(page=page, per_page=7)
     else:
+        # get all posts
         paginate = Post.query.paginate(page=page, per_page=7)
 
+    # get all categories
     categories = Category.query.all()
 
     return render_template('index.html', user=current_user, categories=categories, paginate=paginate)
@@ -68,18 +81,22 @@ def index():
 
 @app.route('/personal-profile', methods=['GET', 'POST'])
 def personalProfile():
+    # This function can be accessed by both GET and POST methods
+    # GET method: display the personal profile page
+    # POST method: update the user's bio
     user = current_user
     posts = Post.query.filter_by(author_id=user.id).all()
 
     if request.method == 'POST':
         new_bio = request.form.get('new_bio')
-        # 更新数据库中的用户 bio
+        # update the database
         user.bio = new_bio
         db.session.commit()
-        # 重定向到个人资料页面，或者任何其他你想要跳转的页面
+        # redirect to the personal profile page
         return redirect(url_for('personalProfile'))
 
     return render_template('personal-profile.html', title='Personal Profile', user=user, posts=posts)
+
 
 @app.route('/user-posts/<username>')
 def user_posts(username):
@@ -98,14 +115,17 @@ def search():
     page = request.args.get('page', 1, type=int)
     search_keywords = request.args.get('search_keywords')
 
-    paginate = Post.query.filter(or_(Post.title.contains(search_keywords), Post.body.contains(search_keywords))).paginate(page=page, per_page=7)
-
+    paginate = Post.query.filter(or_(Post.title.contains(
+        search_keywords), Post.body.contains(search_keywords))).paginate(page=page, per_page=7)
 
     return render_template('index.html', title='Home', paginate=paginate)
 
 
 @app.route('/new-discussion', methods=['GET', 'POST'])
 def newDiscussion():
+    # This function can be accessed by both GET and POST methods
+    # GET method: display the new discussion page
+    # POST method: create a new post
     if request.method == 'GET':
         if not current_user.is_authenticated:
             return jsonify({'code': 201, 'message': 'Please login first!'})
@@ -121,18 +141,22 @@ def newDiscussion():
         body = request.form['body']
 
         author_id = current_user.id
-
-        new_post = Post(body=body, author_id=author_id, category_id=category_id, title=title)
+        # construct a new post object and add it to the database
+        new_post = Post(body=body, author_id=author_id,
+                        category_id=category_id, title=title)
         db.session.add(new_post)
-        db.session.commit()
 
         current_user.credit += 5
         db.session.commit()
+
+        # generate a response using GPT-3.5-Turbo
+        executor.submit(requests.post, "http://127.0.0.1:5000/gpt/" + str(new_post.id), json={"title": title, "body": body})
 
         return jsonify({'code': 200, 'post_id': new_post.id})
 
 
 def robohash_url(text):
+    # generate a random avatar based on the text
     return f"https://robohash.org/{text}"
 
 
@@ -142,7 +166,8 @@ def rankingPage():
     for user in users:
         user.robohash_url = robohash_url(user.email)
     return render_template("ranking-page.html", title='Ranking page', users=users)
- 
+
+
 @app.route('/post-details/<int:post_id>', methods=['GET', 'POST'])
 def postDetails(post_id):
 
@@ -150,22 +175,43 @@ def postDetails(post_id):
         post = Post.query.get_or_404(post_id)
         comments = Comment.query.filter_by(post_id=post_id).all()
         return render_template("post-details.html", title='Post details', post=post, comments=comments, user=current_user)
-    
+
     if request.method == 'POST':
         if not current_user.is_authenticated:
             return jsonify({'code': 201, 'message': 'Please login first!'})
-      
-        body = request.form['body']
 
+        body = request.form['body']
         author_id = current_user.id
 
         new_comment = Comment(body=body, author_id=author_id, post_id=post_id)
         db.session.add(new_comment)
-        db.session.commit()
 
         current_user.credit += 1
         db.session.commit()
 
         return jsonify({'code': 200, 'comment_id': new_comment.id})
-    
-    
+
+@app.route('/gpt/<int:post_id>', methods=['POST'])
+def generate_gpt_response(post_id):
+    # In case of long processing time, add a placeholder comment first
+    new_comment = Comment(body="Generating response...\nPlease refresh the page later.", author_id=1, post_id=post_id)
+    db.session.add(new_comment)
+    db.session.commit()
+
+    # get the post title and body from request
+    prompt = "Question: " + request.json.get('title') + "\n" + "Context: " + request.json.get('body')
+
+    # generate a response using GPT-3.5-Turbo
+    # send a request to the OpenAI API
+    response = requests.post(os.getenv('OpenAI_API_ENDPOINT') + "/v1/chat/completions",
+                             headers={"Authorization": "Bearer " + os.getenv('OpenAI_API_KEY'),
+                                      "Content-Type": "application/json"},
+                             json={"model": "gpt-3.5-turbo",
+                                   "messages": [{"role": "user", "content": prompt}]})
+    # get the response from the API
+    content = response.json()["choices"][0]["message"]["content"]
+    print("response: ", content)
+    # edit the comment in the database
+    new_comment.body = content
+    db.session.commit()
+    return

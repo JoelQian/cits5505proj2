@@ -19,6 +19,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['TESTING'] = True  # 在测试时设置为True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'dev'
+db = SQLAlchemy(app)
 
 # 设置数据库URI
 if app.config['TESTING']:

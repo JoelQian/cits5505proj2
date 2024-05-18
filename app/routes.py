@@ -85,6 +85,20 @@ def personalProfile():
     # GET method: display the personal profile page
     # POST method: update the user's bio
     user = current_user
+    if request.args.get('show') == 'comments':
+        # if the query string contains 'show=comments', show the user's comments
+        comments = Comment.query.filter_by(author_id=user.id).all()
+        # create a dictionary to store the comments for each post
+        mix = {}
+        for comment in comments:
+            post = Post.query.get(comment.post_id)
+            if post:
+                if post not in mix:
+                    mix[post] = []
+                mix[post].append(comment)
+        print(mix)
+        return render_template('personal-profile.html', title='Personal Profile', user=user, mix=mix)
+
     posts = Post.query.filter_by(author_id=user.id).all()
 
     if request.method == 'POST':

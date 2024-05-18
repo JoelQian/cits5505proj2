@@ -103,7 +103,7 @@ Biography Section: user.bio is included and the default filter provides a fallba
             <ul class="nav flex-column mt-4 mx-5">
                 <!-- Navigation item for Posts -->
                 <li class="nav-item mb-1">
-                    <a class="nav-link text-secondary hover-orange" href="#">
+                    <a class="nav-link text-secondary hover-orange" href="/personal-profile">
                         <!-- Placeholder SVG icon for Posts -->
                         <i class="bi bi-chat"></i>
                         <span class="Button-label">Posts</span>
@@ -113,7 +113,7 @@ Biography Section: user.bio is included and the default filter provides a fallba
                 </li>
                 <!-- Navigation item for Discussions -->
                 <li class="nav-item mb-1">
-                    <a class="nav-link text-secondary hover-orange" href="#">
+                    <a class="nav-link text-secondary hover-orange" href="?show=comments">
                         <!-- Placeholder SVG icon for Discussions -->
                         <i class="bi bi-list-ul"></i>
                         <span class="Button-label">Discussions</span>
@@ -188,9 +188,10 @@ Type: Integer
                     {# endfor #}
                 </div>
             </div> -->
-            {% if posts %}
+            {% if mix %}
                 <ul class="discussion-list list-unstyled">
-                    {% for post in posts %}
+                    {% for post, comments in mix.items() %}
+                    {% for comment in comments %}
                     <li>
                         <div class="row clearfix">
                             <div class="col-md-10 column row clearfix">
@@ -201,15 +202,15 @@ Type: Integer
 
                                 <div class="col-md-11">
                                     <h5>
-                                        <a href="{{ url_for('postDetails', post_id=post.id) }}" style="text-decoration: none; color: inherit;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='inherit'">{{ post.title }}</a>
+                                        <a href="{{ url_for('postDetails', post_id=post.id) }}#{{ comment.id }}" style="text-decoration: none; color: inherit;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='inherit'">{{ post.title }}</a>
                                     </h5>
                                     <p>
                                         <i class="bi bi-reply-fill"></i>
                                         Publish Date: <span id="humanTimestamp_{{ post.id }}"></span>
                                     </p>
-                                    <p>
-                                        {{ post.body }}
-                                    </p>
+                                
+                                    <p>{{ comment.body }}</p>
+                               
                                 </div>
 
                             </div>
@@ -235,7 +236,56 @@ Type: Integer
                         </div>
                     </li>
                     {% endfor %}
+                    {% endfor %}
                 </ul>
+            {% elif posts %}
+            <ul class="discussion-list list-unstyled">
+                {% for post in posts %}
+                <li>
+                    <div class="row clearfix">
+                        <div class="col-md-10 column row clearfix">
+                            <div class="col-md-1 column">
+                                <img alt="50x50" src='https://robohash.org/{{ post.author.email }}' class="rounded-circle"
+                                    style="width: 50px; height: 50px;" />
+                            </div>
+
+                            <div class="col-md-11">
+                                <h5>
+                                    <a href="{{ url_for('postDetails', post_id=post.id) }}" style="text-decoration: none; color: inherit;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='inherit'">{{ post.title }}</a>
+                                </h5>
+                                <p>
+                                    <i class="bi bi-reply-fill"></i>
+                                    Publish Date: <span id="humanTimestamp_{{ post.id }}"></span>
+                                </p>
+                                <p>
+                                    {{ post.body }}
+                                </p>
+                            </div>
+
+                        </div>
+                        <div class="col-md-2 column">
+                            <div class="row clearfix">
+                                <div class="col-md-6 column">
+                                    <span class="badge category-tag" data-category-id="{{ post.category.id }}">{{ post.category.name }}</span>
+                                </div>
+                                <div class="col-md-6 column text-secondary">
+                                    <p>
+                                        <i class="bi bi-chat-right-heart-fill"></i> 
+                                        {{ post.comments.all()|length }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="text-danger mt-5" style="text-align: right;">
+                                <button class="btn deleteBtn">
+                                    <i class="bi bi-trash-fill"></i>
+                                    &nbsp;
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
             {% else %}
             <div class="row clearfix">
                 <div class="col-md-12 column">

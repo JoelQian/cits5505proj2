@@ -7,7 +7,10 @@ from sqlalchemy import or_
 from concurrent.futures import ThreadPoolExecutor
 import requests
 import os
+import time
 
+
+executor = ThreadPoolExecutor(2)
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -142,16 +145,13 @@ def newDiscussion():
         new_post = Post(body=body, author_id=author_id,
                         category_id=category_id, title=title)
         db.session.add(new_post)
-        db.session.commit()
 
         current_user.credit += 5
         db.session.commit()
 
         # generate a response using GPT-3.5-Turbo
-        with ThreadPoolExecutor() as executor:
-            executor.submit(
-                generate_gpt_response, title, body, new_post.id)
-        
+        executor.submit(requests.post, "http://127.0.0.1:5000/gpt/" + str(new_post.id), json={"title": title, "body": body})
+
         return jsonify({'code': 200, 'post_id': new_post.id})
 
 
@@ -191,19 +191,27 @@ def postDetails(post_id):
 
         return jsonify({'code': 200, 'comment_id': new_comment.id})
 
+@app.route('/gpt/<int:post_id>', methods=['POST'])
+def generate_gpt_response(post_id):
+    # In case of long processing time, add a placeholder comment first
+    new_comment = Comment(body="Generating response...\nPlease refresh the page later.", author_id=1, post_id=post_id)
+    db.session.add(new_comment)
+    db.session.commit()
 
-def generate_gpt_response(title, body, post_id):
+    # get the post title and body from request
+    prompt = "Question: " + request.json.get('title') + "\n" + "Context: " + request.json.get('body')
+
     # generate a response using GPT-3.5-Turbo
     # send a request to the OpenAI API
     response = requests.post(os.getenv('OpenAI_API_ENDPOINT') + "/v1/chat/completions",
                              headers={"Authorization": "Bearer " + os.getenv('OpenAI_API_KEY'),
                                       "Content-Type": "application/json"},
                              json={"model": "gpt-3.5-turbo",
-                                   "messages": [{"role": "user", "content": "Question: " + title + "\n" + "Context: " + body}]})
+                                   "messages": [{"role": "user", "content": prompt}]})
     # get the response from the API
     content = response.json()["choices"][0]["message"]["content"]
-    # create a new comment
-    new_comment = Comment(body=content, author_id=1, post_id=post_id)
-    db.session.add(new_comment)
+    print("response: ", content)
+    # edit the comment in the database
+    new_comment.body = content
     db.session.commit()
     return

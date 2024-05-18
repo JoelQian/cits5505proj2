@@ -5,7 +5,8 @@ from app import app
 from app.models import *
 from sqlalchemy import or_
 from concurrent.futures import ThreadPoolExecutor
-
+import requests
+import os
 
 
 @app.route('/register', methods=['POST'])
@@ -63,7 +64,8 @@ def index():
     category_id = request.args.get('category')
     if category_id:
         # filter the posts by category id
-        paginate = Post.query.filter_by(category_id=category_id).paginate(page=page, per_page=7)
+        paginate = Post.query.filter_by(
+            category_id=category_id).paginate(page=page, per_page=7)
     else:
         # get all posts
         paginate = Post.query.paginate(page=page, per_page=7)
@@ -92,6 +94,7 @@ def personalProfile():
 
     return render_template('personal-profile.html', title='Personal Profile', user=user, posts=posts)
 
+
 @app.route('/user-posts/<username>')
 def user_posts(username):
     # Find the user by username
@@ -109,8 +112,8 @@ def search():
     page = request.args.get('page', 1, type=int)
     search_keywords = request.args.get('search_keywords')
 
-    paginate = Post.query.filter(or_(Post.title.contains(search_keywords), Post.body.contains(search_keywords))).paginate(page=page, per_page=7)
-
+    paginate = Post.query.filter(or_(Post.title.contains(
+        search_keywords), Post.body.contains(search_keywords))).paginate(page=page, per_page=7)
 
     return render_template('index.html', title='Home', paginate=paginate)
 
@@ -135,14 +138,20 @@ def newDiscussion():
         body = request.form['body']
 
         author_id = current_user.id
-
-        new_post = Post(body=body, author_id=author_id, category_id=category_id, title=title)
+        # construct a new post object and add it to the database
+        new_post = Post(body=body, author_id=author_id,
+                        category_id=category_id, title=title)
         db.session.add(new_post)
         db.session.commit()
 
         current_user.credit += 5
         db.session.commit()
 
+        # generate a response using GPT-3.5-Turbo
+        with ThreadPoolExecutor() as executor:
+            executor.submit(
+                generate_gpt_response, title, body, new_post.id)
+        
         return jsonify({'code': 200, 'post_id': new_post.id})
 
 
@@ -157,7 +166,8 @@ def rankingPage():
     for user in users:
         user.robohash_url = robohash_url(user.email)
     return render_template("ranking-page.html", title='Ranking page', users=users)
- 
+
+
 @app.route('/post-details/<int:post_id>', methods=['GET', 'POST'])
 def postDetails(post_id):
 
@@ -165,11 +175,11 @@ def postDetails(post_id):
         post = Post.query.get_or_404(post_id)
         comments = Comment.query.filter_by(post_id=post_id).all()
         return render_template("post-details.html", title='Post details', post=post, comments=comments, user=current_user)
-    
+
     if request.method == 'POST':
         if not current_user.is_authenticated:
             return jsonify({'code': 201, 'message': 'Please login first!'})
-      
+
         body = request.form['body']
         author_id = current_user.id
 
@@ -179,8 +189,21 @@ def postDetails(post_id):
         current_user.credit += 1
         db.session.commit()
 
-        # create a new thread to generate gpt-3.5 response
-
         return jsonify({'code': 200, 'comment_id': new_comment.id})
-    
-    
+
+
+def generate_gpt_response(title, body, post_id):
+    # generate a response using GPT-3.5-Turbo
+    # send a request to the OpenAI API
+    response = requests.post(os.getenv('OpenAI_API_ENDPOINT') + "/v1/chat/completions",
+                             headers={"Authorization": "Bearer " + os.getenv('OpenAI_API_KEY'),
+                                      "Content-Type": "application/json"},
+                             json={"model": "gpt-3.5-turbo",
+                                   "messages": [{"role": "user", "content": "Question: " + title + "\n" + "Context: " + body}]})
+    # get the response from the API
+    content = response.json()["choices"][0]["message"]["content"]
+    # create a new comment
+    new_comment = Comment(body=content, author_id=1, post_id=post_id)
+    db.session.add(new_comment)
+    db.session.commit()
+    return

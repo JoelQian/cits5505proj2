@@ -215,3 +215,10 @@ def generate_gpt_response(post_id):
     new_comment.body = content
     db.session.commit()
     return
+
+@app.route('/delete-comment/<int:comment_id>', methods=['POST'])
+def delete_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    db.session.delete(comment)
+    db.session.commit()
+    return jsonify({'code': 200, 'message': 'Comment deleted successfully!'})

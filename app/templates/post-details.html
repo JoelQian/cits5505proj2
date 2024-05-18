@@ -53,7 +53,6 @@
                         <div class="text-muted">
                             <i class="bi bi-reply-fill"></i>
                             Publish Date: <span id="humanTimestamp_{{ post.id }}"></span></div>
-                        {% else %}
                         {% endif %}
                         <div class="author-content p-3  mt-2" style="max-width: 90%; overflow-y: auto;">
                             <h5>{{post.body}}</h5>
@@ -80,6 +79,14 @@
                                 <i class="bi bi-chat-left-quote"></i>
                                 <b>{{comment.author.username}}</b></h5>
                             <span style="display: inline; color: brown;">&nbsp;<i class="bi bi-award-fill"></i>{{ comment.author.credit }}</span>
+                            {% if comment.author == current_user %}
+                            <div class="float-end text-danger" style="display: inline; text-align: right;">
+                                <button class="btn">
+                                    <i class="bi bi-trash-fill"></i>
+                                    &nbsp;
+                                </button>
+                            </div>
+                            {% endif %}
                         </div>
                             {% if comment.author.bio %}
                             <p class="text-muted mt-1">&nbsp;"{{ comment.author.bio }}"</p>

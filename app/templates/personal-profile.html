@@ -206,7 +206,7 @@ Type: Integer
                                     </h5>
                                     <p>
                                         <i class="bi bi-reply-fill"></i>
-                                        Publish Date: <span id="humanTimestamp_{{ post.id }}"></span>
+                                        <span>Replied to <b>{{ post.author.username }}</b></span>
                                     </p>
                                 
                                     <p>{{ comment.body }}</p>
@@ -216,7 +216,7 @@ Type: Integer
                             </div>
                             <div class="col-md-2 column">
                                 <div class="row clearfix">
-                                    <div class="col-md-6 column">
+                                    <div class="col-md-6 column category-tag">
                                         <span class="badge category-tag" data-category-id="{{ post.category.id }}">{{ post.category.name }}</span>
                                     </div>
                                     <div class="col-md-6 column text-secondary">
@@ -228,7 +228,6 @@ Type: Integer
                                 </div>
                                 <div class="text-danger mt-5" style="text-align: right;">
                                     <button class="btn deleteBtn">
-                                        <i class="bi bi-trash-fill"></i>
                                         &nbsp;
                                     </button>
                                 </div>
@@ -268,7 +267,7 @@ Type: Integer
                                 <div class="col-md-6 column">
                                     <span class="badge category-tag" data-category-id="{{ post.category.id }}">{{ post.category.name }}</span>
                                 </div>
-                                <div class="col-md-6 column text-secondary">
+                                <div class="col-md-6 column text-secondary comments-num">
                                     <p>
                                         <i class="bi bi-chat-right-heart-fill"></i> 
                                         {{ post.comments.all()|length }}

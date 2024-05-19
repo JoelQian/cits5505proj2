@@ -236,3 +236,10 @@ def delete_comment(comment_id):
     db.session.delete(comment)
     db.session.commit()
     return jsonify({'code': 200, 'message': 'Comment deleted successfully!'})
+
+@app.route('/delete-post/<int:post_id>', methods=['POST'])
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    db.session.delete(post)
+    db.session.commit()
+    return jsonify({'code': 200, 'message': 'Post deleted successfully!'})

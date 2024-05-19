@@ -188,7 +188,7 @@ def postDetails(post_id):
     if request.method == 'GET':
         post = Post.query.get_or_404(post_id)
         comments = Comment.query.filter_by(post_id=post_id).all()
-        return render_template("post-details.html", title='Post details', post=post, comments=comments, user=current_user)
+        return render_template("post-details.html", post=post, comments=comments, user=current_user)
 
     if request.method == 'POST':
         if not current_user.is_authenticated:

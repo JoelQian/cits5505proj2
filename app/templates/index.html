@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 <!-- Title Block: Sets the title of the webpage to "QuorAI - Answers with AI", describing the site's purpose. -->
-{% block title %}
+<!-- {% block title %} -->
 <title>QuorAI - Answers with AI</title>
-{% endblock %}
+<!-- {% endblock %} -->
 
 <!-- Style Block: Links a custom CSS file for specific styling of the index page, dynamically loaded using Flask's url_for function. -->
 {% block style %}
@@ -13,6 +13,7 @@
 
 {% block main %}
 <div class="bg-light">
+    {% if not current_user.is_authenticated %}
     <div class="text-center bg-white pt-3 shadow-sm pb-5">
         <h1 class="danger-text pt-5 pb-4"><img alt="logo" src="{{ url_for('static', filename='img/4501715747379_.pic.jpg') }}" class="rounded index-logo" /></h1>
         <div class="col-md-6 offset-3">
@@ -21,15 +22,13 @@
             <h5 class="mt-4 mb-4 col-md-10 offset-1 text-muted">"Dive into a community where curiosity is rewarded and your insights elevate your status on our leaderboards.Connect with like-minded individuals and discover a world powered by curiosity and guided by artificial intelligence."</h5>
             {% if current_user.is_authenticated %} <h5 class="mt-4 mb-4 col-md-8 offset-2 text-muted">Dear <b>{{ current_user.username }}</b>, you are now a member of QuorAI. You can start asking questions and interacting with everyone now!</h5>{% endif %}
         </div>
-        {% if current_user.is_authenticated %}
-        {% else %}
         <div>
             <a class="btn btn-secondary bg-gradient btn-large intro-btn-login" href="#" data-bs-toggle="modal" data-bs-target="#ModalToggle">Login</a>
             &nbsp;&nbsp;&nbsp;
             <a class="btn btn-warning bg-gradient btn-large intro-btn-signup text-muted" href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Sign-up</a>
        </div>
-        {% endif %}
     </div>
+    {% endif %}
     <div class="container mt-5">
         <div class="row clearfix">
             <div class="homepage-nav col-md-3 column">
@@ -119,6 +118,7 @@
     </div>
 </div>
 {% endblock %}
+
 
 <!-- Script Block: Loads a custom JavaScript file for the index page and includes additional inline scripts for dynamic date handling using Moment.js. -->
 {% block script %}

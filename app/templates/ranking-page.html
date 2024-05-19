@@ -40,8 +40,6 @@
                               <h4>{{ user.username }}</h4>
                               {% if user.bio %}
                               <p class="text-muted">&nbsp;"{{ user.bio }}"</p>
-                              {% else %}
-                              <!-- <p class="text-muted">&nbsp;This user has not provided a bio yet...</p> -->
                               {% endif %}
                               <ul class="list-inline">
                                 <li class="text-secondary list-inline-item text-center mt-2">
@@ -56,12 +54,6 @@
                                   <i class="bi bi-chat-right-text"></i>
                                   <p>{{ user.comments.all()|length }} comments</p>
                                 </li>
-                                <!-- <li class="text-secondary list-inline-item">
-                                  {# user.likes #} likes
-                                </li>
-                                <li class="text-secondary list-inline-item">
-                                  {# user.collections #} collections
-                                </li> -->
                               </ul>
                           </div>
                         </div>

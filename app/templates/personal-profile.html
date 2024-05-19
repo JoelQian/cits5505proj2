@@ -145,11 +145,11 @@ Biography Section: user.bio is included and the default filter provides a fallba
                                         </p>
                                     </div>
                                 </div>
-                                <div class="text-danger mt-5" style="text-align: right;">
+                                <!-- <div class="text-danger mt-5" style="text-align: right;">
                                     <button class="btn deleteBtn">
                                         &nbsp;
                                     </button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </li>
@@ -194,7 +194,7 @@ Biography Section: user.bio is included and the default filter provides a fallba
                                 </div>
                             </div>
                             <div class="text-danger mt-5" style="text-align: right;">
-                                <button class="btn deleteBtn" id="deletepostbtn22" data-post-id="{{ post.id }}">
+                                <button class="btn deleteBtn" id="DelPOSTBtn" data-post-id="{{ post.id }}">
                                     <i class="bi bi-trash-fill"></i>
                                     &nbsp;
                                 </button>
@@ -264,33 +264,26 @@ Description: The main content of the post.-->
         {% endfor %}
     });
 
-    // delete post
-    $(document).ready(function () {
-        $('#deletepostbtn22').click(function () {
-            const post_id = $(this).data('post-id');
-            console.log(post_id);
-            const baseUrl = `${window.location.protocol}//${window.location.host}`;
+    document.querySelectorAll('.deleteBtn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var postId = btn.getAttribute('data-post-id');
+            var confirmation = confirm('Are you sure you want to delete this post?');
 
-            $.ajax({
-                type: 'POST',
-                url: `${baseUrl}/delete-post/${post_id}`,
-                success: function (response) {
-                    if (response.code === 200) {
-                        $('#resultMessage').html('<div class="alert alert-success" role="alert">Post deleted successfully!</div>');
-                        // go to the discussion page
-                        setTimeout(function () {
-                            window.location.href = window.location.pathname;
-                        }, 1000);
-
+            if (confirmation) {
+                fetch(`/delete-post/${postId}`, {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 200) {
+                        window.location.reload();
                     } else {
-                        $('#resultMessage').html('<div class="alert alert-danger" role="alert">Error: ' + response.message + '</div>');
+                        alert('An error occurred. Please try again later.');
                     }
-                },
-                error: function () {
-                    $('#resultMessage').html('<div class="alert alert-danger" role="alert">An error occurred. Please try again later.</div>');
-                }
-            });
+                });
+            }
         });
     });
+
 </script>
 {% endblock %}

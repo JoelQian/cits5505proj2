@@ -3,6 +3,7 @@
 {% block style %}
 <title>{{ current_user.username }} - Profile</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/personal-profile.css') }}">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 {% endblock %}
 
 
@@ -266,7 +267,7 @@ Type: Integer
                                 </div>
                             </div>
                             <div class="text-danger mt-5" style="text-align: right;">
-                                <button class="btn deleteBtn" data-post-id="{{ post.id }}">
+                                <button class="btn deleteBtn" id="deletepostbtn22" data-post-id="{{ post.id }}">
                                     <i class="bi bi-trash-fill"></i>
                                     &nbsp;
                                 </button>
@@ -347,6 +348,35 @@ Description: The number of likes the post has received.-->
                 element_{{ post.id }}.textContent = momentTimestamp_{{ post.id }}.format('YYYY-MM-DD HH:mm:ss');
             }
         {% endfor %}
+    });
+
+    // delete post
+    $(document).ready(function () {
+        $('#deletepostbtn22').click(function () {
+            const post_id = $(this).data('post-id');
+            console.log(post_id);
+            const baseUrl = `${window.location.protocol}//${window.location.host}`;
+
+            $.ajax({
+                type: 'POST',
+                url: `${baseUrl}/delete-post/${post_id}`,
+                success: function (response) {
+                    if (response.code === 200) {
+                        $('#resultMessage').html('<div class="alert alert-success" role="alert">Post deleted successfully!</div>');
+                        // go to the discussion page
+                        setTimeout(function () {
+                            window.location.href = window.location.pathname;
+                        }, 1000);
+
+                    } else {
+                        $('#resultMessage').html('<div class="alert alert-danger" role="alert">Error: ' + response.message + '</div>');
+                    }
+                },
+                error: function () {
+                    $('#resultMessage').html('<div class="alert alert-danger" role="alert">An error occurred. Please try again later.</div>');
+                }
+            });
+        });
     });
 </script>
 {% endblock %}

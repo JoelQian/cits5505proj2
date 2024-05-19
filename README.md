@@ -199,14 +199,14 @@ For Windows systems:
 ## Installing Dependencies
 The dependencies required for the application are listed in the requirements.txt file. To install these dependencies, use the following command:
 
-`$ pip install -r requirements.txt`
+`$ pip3 install -r requirements.txt`
 
-Note: On some systems, `pip` may be aliased as `pip3`.
+Note: On some systems, `pip3` may be aliased as `pip`.
 
 ## Launching the Application Server
 Once the dependencies are installed, you can start the application server by running:
 
-`$ python app.py`
+`$ flask run`
 
 ## How to test
 

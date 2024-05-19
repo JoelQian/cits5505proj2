@@ -47,3 +47,16 @@ main {
 .hover-orange:hover {
     color: orange!important;
 }
+
+.index-logo {
+    height: 90px;
+    opacity: 0.95;
+    filter: blur(0.1px);
+}
+
+.intro-btn-login {
+    border: 2px outset #4a4a4a; 
+}
+.intro-btn-signup {
+    border: 2px outset #cc9a06; 
+}

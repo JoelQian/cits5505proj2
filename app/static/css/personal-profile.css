@@ -1,10 +1,10 @@
-/* 给Header设置短一点， 后面需要修改 */
+/* Make the header shorter */
 .header{
     height:52px;
    
 }
 
-/* 为了header不挡住内容， 后面还需要修改 */
+/* To prevent the header from blocking content */
 .self-intro{
     margin-top: 3.5rem; 
     padding-top: 1rem;

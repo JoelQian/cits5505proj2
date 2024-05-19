@@ -22,6 +22,50 @@
 - SQLite
 - Python
 
+
+## External Resources Used in the Project
+### CSS References
+1. Bootstrap CSS
+- Source: Bootstrap CDN
+- Version: 5.3.3
+- Purpose: Provides styling and layout control throughout the website.
+- Integrity & Crossorigin: Ensures the resource is loaded without tampering and CORS policies are respected.
+
+2. Bootstrap Icons
+- Source: jsDelivr CDN
+- Version: 1.11.3
+- Purpose: Provides scalable vector icons for use across the website.
+
+3. Custom CSS
+- Source: Loaded dynamically using Flask's url_for function.
+- Purpose: Adds specific page styles unique to our website.
+
+### JavaScript References
+1. Moment.js
+- Source: cdnjs
+- Version: 2.30.1
+- Purpose: A powerful library for parsing, validating, manipulating, and formatting dates.
+
+2. jQuery
+- Source: jQuery CDN
+- Version: 3.7.1
+- Purpose: Simplifies DOM manipulation, event handling, and Ajax interactions.
+
+3. Bootstrap Bundle JS
+- Source: jsDelivr CDN
+- Version: 5.3.3
+- Purpose: Includes Popper for tooltips and popovers; supports Bootstrap's JavaScript plugins.
+
+4. Custom JavaScript
+- Source: Loaded dynamically using Flask's url_for function.
+- Purpose: Adds specific functionalities to the webpage.
+
+### Image References
+- Website Logo
+- Favicon
+- User Avatar
+
+
 ## External Resources Used in the Project
 ### CSS References
 1. Bootstrap CSS

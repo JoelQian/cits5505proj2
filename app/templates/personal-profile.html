@@ -70,12 +70,6 @@
                     }
                 });
             </script>
-            
-            
-            
-            
-            
-
         </div>
         <div class="col-md-3 column">
         </div>
@@ -84,7 +78,6 @@
 <!-- Explanation
 Image Path: The default filter is used to provide a fallback image if user.profile_picture_url is undefined or empty.
 Date Formatting: The date filter formats the user's join date. Make sure you have installed and configured the Jinja2 date filter in your Flask app.
-Badge Rendering: Assuming user.badges contains a list of badges a user has earned, they are rendered using a loop as Bootstrap badges.
 Biography Section: user.bio is included and the default filter provides a fallback text in case the field is empty. -->
 
 <!-- navbar -->
@@ -99,8 +92,6 @@ Biography Section: user.bio is included and the default filter provides a fallba
                         <!-- Placeholder SVG icon for Posts -->
                         <i class="bi bi-chat"></i>
                         <span class="Button-label">Posts</span>
-                        <!-- Dynamically displays the count of posts
-                        <span class="Button-badge"></span> -->
                     </a>
                 </li>
                 <!-- Navigation item for Discussions -->
@@ -109,77 +100,13 @@ Biography Section: user.bio is included and the default filter provides a fallba
                         <!-- Placeholder SVG icon for Discussions -->
                         <i class="bi bi-list-ul"></i>
                         <span class="Button-label">Discussions</span>
-                        <!-- Dynamically displays the count of discussions
-                        <span class="Button-badge">{{ discussion_count }}</span> -->
                     </a>
                 </li>
             </ul>
         </div>
- <!-- navbar explanation
-List of Variables to be Passed from the Backend
-post_count:
-Description: Represents the total number of posts available or created by the user. This variable is used to display a badge next to the "Posts" link in the navigation bar.
-Type: Integer
-discussion_count:
-Description: Indicates the total number of discussions initiated or participated in by the user. This count is displayed next to the "Discussions" link.
-Type: Integer
-like_count:
-Description: Shows the total number of likes received by the user across their posts or interactions. This number is shown next to the "Likes" link.
-Type: Integer
-vote_count:
-Description: Reflects the total number of votes the user has cast or received in various polls or voting interactions on the platform. Displayed next to the "Votes" link.
-Type: Integer
-mention_count:
-Description: Counts how many times the user has been mentioned across different posts or comments within the platform. This is shown next to the "Mentions" link.
-Type: Integer 
--->
-
 
         <!-- post-list -->
         <div class="col-md-9 column mt-3">
-            <!-- <div class="row clearfix">
-                <div class="col-md-10 column row"> -->
-                    <!-- Loop through each post in the list of posts -->
-                    <!-- {# for post in posts #}
-                    <div class="col-md-11 column row clearfix list-margin border-0 border-bottom">
-                        <p class="text-secondary">{# post.title #}</p>
-                        <div class="col-md-1 column">
-                            <img alt="Profile Picture" src='https://robohash.org/{# post.author.email #}' class="rounded-circle" style="width: 50px; height: 50px;" />
-                        </div>
-                        <div class="col-md-11">
-                            <ul class="list-inline list-style-none">
-                                <li class="h6 list-inline-item list-style-none">{# post.author.username #}</li>
-                                <li class="text-secondary list-inline-item"><span id="humanTimestamp_{# post.id #}"></span></li>
-                                <li class="text-secondary list-inline-item">{# 'Edited' if post.edited else '' #}</li>
-                            </ul>
-                            <h5>
-                                {# post.subtitle #}
-                            </h5>
-                            <p>
-                                {# post.content #}
-                            </p>
-                            <div class="list-reply-margin">
-                                <p> -->
-                                    <!-- Example of interaction -->
-                                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                    </svg> 
-                                </p>
-                                <p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                        fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
-                                    </svg> {# post.likes #} people like this.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    {# endfor #}
-                </div>
-            </div> -->
             {% if mix %}
                 <ul class="discussion-list list-unstyled">
                     {% for post, comments in mix.items() %}
@@ -289,11 +216,12 @@ Type: Integer
         </div>
                 
      <!-- ending -->
+
  <!-- post list explanation
 List of Variables and Their Descriptions
 #posts:
 Type: List of dictionaries or objects
-Description: This should be a list where each element represents a post. Each post contains details such as the title, user information, content, and interactions like replies and likes.
+Description: This should be a list where each element represents a post. Each post contains details such as the title, user information, content, and interactions like replies.
 Each post dictionary/object in the posts list should include the following keys/attributes:
 
 1.title:
@@ -304,26 +232,12 @@ Type: Dictionary/Object
 Description: Contains user-specific information. This dictionary/object should include:
 2.1 name: The name of the user who posted.
 2.2 profile_picture_url: URL to the user's profile picture.
-3.time_since_posted:
+3.publish_date:
 Type: String
 Description: Describes how long ago the post was made (e.g., "an hour ago").
-4.edited:
-Type: Boolean
-Description: Indicates whether the post has been edited.
-5.subtitle:
+4.content:
 Type: String
-Description: A subtitle or secondary title for the post.
-6.content:
-Type: String
-Description: The main content of the post.
-7.last_reply:
-Type: Dictionary/Object
-Description: Contains information about the last reply to the post. It should include:
-7.1 user: Dictionary/Object with details of the user who made the last reply.
-7.2 name: Name of the user who replied.
-8.likes:
-Type: Integer
-Description: The number of likes the post has received.-->
+Description: The main content of the post.-->
     </div>
 </div>
 

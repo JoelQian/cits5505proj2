@@ -11,90 +11,109 @@
 
 
 {% block main %}
-<div class="container">
-    <div class="row clearfix">
-        <div class="homepage-nav col-md-3 column">
-            <a class="btn btn-warning bg-gradient text-white px-3 mx-5" href="{{ url_for('newDiscussion') }}">Start a
-                Question</a>
-            <ul class="nav flex-column mt-4 mx-5">
-                <li class="nav-item mb-1">
-                    <a class="nav-link text-secondary hover-orange" href= "/">
-                        <i class="bi bi-archive-fill"></i>
-                        <span class="Button-label">All</span>
-                    </a>
-                </li>
-                {% for category in categories %}
-                <li class="nav-item mb-1">
-                    <a class="nav-link text-secondary hover-orange" href="?category={{ category.id }}">
-                        <i class="{{ category.iconClass }}"></i>
-                        <span class="Button-label">{{ category.name }}</span>
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
+<div class="bg-light">
+    <div class="text-center bg-white pt-3 shadow-sm pb-5">
+        <h1 class="danger-text pt-5 pb-4"><img alt="logo" src="{{ url_for('static', filename='img/4501715747379_.pic.jpg') }}" class="rounded index-logo" /></h1>
+        <div class="col-md-6 offset-3">
+            <h2><b>Empower Your Curiosity with AI-Driven Insights</b></h2>
+            <h5 class="mt-4 mb-4 col-md-10 offset-1 text-muted">Welcome to <b>QuorAI</b>, the cutting-edge online forum where every question receives an immediate AI-powered response.</h5>
+            <h5 class="mt-4 mb-4 col-md-10 offset-1 text-muted">"Dive into a community where curiosity is rewarded and your insights elevate your status on our leaderboards.Connect with like-minded individuals and discover a world powered by curiosity and guided by artificial intelligence."</h5>
+            {% if current_user.is_authenticated %} <h5 class="mt-4 mb-4 col-md-8 offset-2 text-muted">Dear <b>{{ current_user.username }}</b>, you are now a member of QuorAI. You can start asking questions and interacting with everyone now!</h5>{% endif %}
         </div>
-        <div class="homepage-results col-md-9 column">
-            
-            {% if paginate.total == 0 %}
-            <h4 class="text-center mt-4 text-secondary" role="alert">
-                No discussions found.
-            </h4>
-            {% else %}
-            <ul class="discussion-list list-unstyled mt-4">
+        {% if current_user.is_authenticated %}
+        {% else %}
+        <div>
+            <a class="btn btn-secondary bg-gradient btn-large intro-btn-login" href="#">Login</a>
+            &nbsp;&nbsp;&nbsp;
+            <a class="btn btn-warning bg-gradient btn-large intro-btn-signup text-muted" href="#">Sign-up</a>
+       </div>
+        {% endif %}
+    </div>
+    <div class="container mt-5">
+        <div class="row clearfix">
+            <div class="homepage-nav col-md-3 column">
+                <a class="btn btn-warning bg-gradient text-white px-3 mx-5" href="{{ url_for('newDiscussion') }}">Start a
+                    Question</a>
+                <ul class="nav flex-column mt-4 mx-5">
+                    <li class="nav-item mb-1">
+                        <a class="nav-link text-secondary hover-orange" href= "/">
+                            <i class="bi bi-archive-fill"></i>
+                            <span class="Button-label">All</span>
+                        </a>
+                    </li>
+                    {% for category in categories %}
+                    <li class="nav-item mb-1">
+                        <a class="nav-link text-secondary hover-orange" href="?category={{ category.id }}">
+                            <i class="{{ category.iconClass }}"></i>
+                            <span class="Button-label">{{ category.name }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="homepage-results col-md-9 column">
+                
+                {% if paginate.total == 0 %}
+                <h4 class="text-center mt-4 text-secondary" role="alert">
+                    No discussions found.
+                </h4>
+                {% else %}
+                <ul class="discussion-list list-unstyled mt-4">
 
-                {% for post in paginate.items %}
-                <li>
-                    <div class="row clearfix">
-                        <div class="col-md-10 column row clearfix">
-                            <div class="col-md-1 column">
-                                <img alt="Avatar" src='https://robohash.org/{{ post.author.email }}' class="rounded-circle"
-                                    style="width: 50px; height: 50px;" />
-                            </div>
-
-                            <div class="col-md-11">
-                                <h5>
-                                    <a href="{{ url_for('postDetails', post_id=post.id) }}" style="text-decoration: none; color: inherit;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='inherit'">{{ post.title }}</a>
-                                </h5>
-                                <p>
-                                    <i class="bi bi-reply-fill"></i>
-                                    Publish Date: <span id="humanTimestamp_{{ post.id }}"></span>
-                                </p>
-                                <p>
-                                    {{ post.body }}
-                                </p>
-                            </div>
-
-                        </div>
-                        <div class="col-md-2 column">
-                            <div class="row clearfix">
-                                <div class="col-md-6 column">
-                                    <span class="badge category-tag" data-category-id="{{ post.category.id }}">{{ post.category.name }}</span>
+                    {% for post in paginate.items %}
+                    <li>
+                        <div class="row clearfix">
+                            <div class="col-md-10 column row clearfix">
+                                <div class="col-md-1 column">
+                                    <img alt="Avatar" src='https://robohash.org/{{ post.author.email }}' class="rounded-circle"
+                                        style="width: 50px; height: 50px;" />
                                 </div>
-                                <div class="col-md-6 column text-secondary">
+
+                                <div class="col-md-11">
+                                    <h5>
+                                        <a href="{{ url_for('postDetails', post_id=post.id) }}" style="text-decoration: none; color: inherit;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='inherit'">{{ post.title }}</a>
+                                    </h5>
                                     <p>
-                                        <i class="bi bi-chat-right-heart-fill"></i>
-                                        {{ post.comments.all()|length }}
+                                        <i class="bi bi-reply-fill"></i>
+                                        Publish Date: <span id="humanTimestamp_{{ post.id }}"></span>
+                                    </p>
+                                    <p>
+                                        {{ post.body }}
                                     </p>
                                 </div>
+
+                            </div>
+                            <div class="col-md-2 column">
+                                <div class="row clearfix">
+                                    <div class="col-md-6 column">
+                                        <span class="badge category-tag" data-category-id="{{ post.category.id }}">{{ post.category.name }}</span>
+                                    </div>
+                                    <div class="col-md-6 column text-secondary">
+                                        <p>
+                                            <i class="bi bi-chat-right-heart-fill"></i>
+                                            {{ post.comments.all()|length }}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-            <ul class="pagination justify-content-center mb-5">
-                <li {% if not paginate.has_prev %}class="page-item disabled" {% else %}class="page-item" {% endif %}><a
-                        class="page-link" href="{{ url_for('index') }}?page={{ paginate.prev_num }}"
-                        aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                {% for num in range(1, paginate.pages+1) %}
-                <li {% if num==paginate.page %}class="page-item active" {% else %}class="page-item" {% endif %}><a
-                        class="page-link" href="{{ url_for('index') }}?page={{ num }}">{{ num }}</a></li>
-                {% endfor %}
-                <li {% if not paginate.has_next %}class="page-item disabled" {% else %}class="page-item" {% endif %}><a
-                        class="page-link" href="{{ url_for('index') }}?page={{ paginate.next_num }}"
-                        aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-            </ul>
-            {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <ul class="pagination justify-content-center mb-5">
+                    <li {% if not paginate.has_prev %}class="page-item disabled" {% else %}class="page-item" {% endif %}><a
+                            class="page-link" href="{{ url_for('index') }}?page={{ paginate.prev_num }}"
+                            aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                    {% for num in range(1, paginate.pages+1) %}
+                    <li {% if num==paginate.page %}class="page-item active" {% else %}class="page-item" {% endif %}><a
+                            class="page-link" href="{{ url_for('index') }}?page={{ num }}">{{ num }}</a></li>
+                    {% endfor %}
+                    <li {% if not paginate.has_next %}class="page-item disabled" {% else %}class="page-item" {% endif %}><a
+                            class="page-link" href="{{ url_for('index') }}?page={{ paginate.next_num }}"
+                            aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                </ul>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

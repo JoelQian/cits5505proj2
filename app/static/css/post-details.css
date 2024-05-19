@@ -1,13 +1,20 @@
-main {
-    margin-top: 70px;
+.post-details-body{
+    margin-top: 3.5rem; 
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
-@media (max-width: 991px) {
-    main {
-        margin-top: 260px;
+@media (min-width: 768px) and (max-width: 991px) {
+    .post-details-body{
+        margin-top: 12rem; 
+        padding-top: 1rem;
     }
-    .homepage-nav {
-        display: none;
+}
+
+@media (max-width: 767px) {
+    .post-details-body{
+        margin-top: 12rem; 
+        padding-top: 2rem;
     }
 }
 

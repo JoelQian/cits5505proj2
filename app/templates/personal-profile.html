@@ -1,16 +1,7 @@
 {% extends "base.html" %}
 
-
-{% block title %}
-{% if title %}
-<title>{{ title }} - Blog</title>
-{% else %}
-<title>Welcome to Blog!</title>
-{% endif %}
-{% endblock %}
-
-
 {% block style %}
+<title>{{ current_user.username }} - Profile</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/personal-profile.css') }}">
 {% endblock %}
 
@@ -275,7 +266,7 @@ Type: Integer
                                 </div>
                             </div>
                             <div class="text-danger mt-5" style="text-align: right;">
-                                <button class="btn deleteBtn">
+                                <button class="btn deleteBtn" data-post-id="{{ post.id }}">
                                     <i class="bi bi-trash-fill"></i>
                                     &nbsp;
                                 </button>

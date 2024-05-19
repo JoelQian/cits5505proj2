@@ -1,16 +1,9 @@
 {% extends "base.html" %}
 
 
-{% block title %}
-{% if title %}
-<title>{{ title }} - Blog</title>
-{% else %}
-<title>Welcome to Blog!</title>
-{% endif %}
-{% endblock %}
-
 
 {% block style %}
+<title>{{ post.title }}</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/post-details.css') }}">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 {% endblock %}

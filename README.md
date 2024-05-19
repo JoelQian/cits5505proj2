@@ -120,15 +120,16 @@ Once the dependencies are installed, you can start the application server by run
 
 Run unit test by running:
 
-`$ python -m unittest discover -s test`
+`$ python -m unittest ./test/test_unit.py`
 
 All tests passed if terminal return the following:
 
 ..
 ----------------------------------------------------------------------
-Ran 4 tests in 0.379s
+Ran 5 tests in 0.379s
 
 OK
+
 
 
 

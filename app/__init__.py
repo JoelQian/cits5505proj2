@@ -26,6 +26,7 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(basedir, 'app.db')
 
 db = SQLAlchemy(app)
+
 login_manager = LoginManager(app)
 
 @login_manager.user_loader
@@ -36,3 +37,6 @@ def load_user(user_id):
 
 from app import routes
 from app.models import User
+with app.app_context():
+    if os.getenv("TESTING") == "TRUE":
+        db.create_all()

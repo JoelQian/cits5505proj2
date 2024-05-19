@@ -23,9 +23,9 @@
         {% if current_user.is_authenticated %}
         {% else %}
         <div>
-            <a class="btn btn-secondary bg-gradient btn-large intro-btn-login" href="#">Login</a>
+            <a class="btn btn-secondary bg-gradient btn-large intro-btn-login" href="#" data-bs-toggle="modal" data-bs-target="#ModalToggle">Login</a>
             &nbsp;&nbsp;&nbsp;
-            <a class="btn btn-warning bg-gradient btn-large intro-btn-signup text-muted" href="#">Sign-up</a>
+            <a class="btn btn-warning bg-gradient btn-large intro-btn-signup text-muted" href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Sign-up</a>
        </div>
         {% endif %}
     </div>
@@ -138,5 +138,7 @@
             }
         {% endfor %}
     });
+
+       
 </script>
 {% endblock %}

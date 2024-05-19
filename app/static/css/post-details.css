@@ -31,12 +31,12 @@ main {
 }
 
 .author-content {
-    max-height: 300px; /* 设置最大高度，超出这个高度将出现滚动条 */
-    overflow-y: auto; /* 垂直方向超出容器时显示滚动条 */
+    max-height: 300px; /* Set maximum height, scroll bar will appear if exceeded */
+    overflow-y: auto; /* Show vertical scroll bar when content exceeds container */
 }
 
 .comment-content{
-    /* max-height: 100px; 设置最大高度，超出这个高度将出现滚动条 */
+    /* max-height: 100px; Set maximum height, scroll bar will appear if exceeded */
     overflow-y: auto;
 }
 

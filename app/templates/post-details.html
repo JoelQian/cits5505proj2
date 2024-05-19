@@ -28,17 +28,11 @@
         <div class="col-md-9 column">
             <!-- post section -->
             <div class="row clearfix mt-5">
-                <!-- <div class="col-12 col-md-3 column">
-                    <button type="button" class="btn btn-warning bg-gradient text-white px-3 mx-5 reply" data-bs-toggle="modal"
-                        data-bs-target="#ModalComment" id="newpostpageBtn">Post a comment
-                    </button>
-                </div> -->
                 <!-- Author content -->
                     <div class="col-md-1 offset-md-2">
                         <img alt="Avatar" src='https://robohash.org/{{ post.author.email }}' class="rounded-circle" style="width: 60px; height: 60px; border: rgba(0, 0, 0, 0.2) 2.5px solid;" />
                     </div>
                     <div class="col-md-9">
-                        <!-- <span class="--bs-danger-bg-subtle"><b>author:</b> {{post.author.username}}</span> -->
                         <div>
                             <h3 class="--bs-danger-bg-subtle" style="display: inline;"><b> {{post.author.username}} </b></h3>
                             <h5 style="display: inline; color:brown;"><i class="bi bi-award-fill"></i>{{ post.author.credit }}</h5>
@@ -117,7 +111,6 @@
                                 } else {
                                     element_{{ comment.id }}.textContent = momentTimestamp_{{ comment.id }}.format('YYYY-MM-DD HH:mm:ss');
                                 }
-
                             });
                         </script>
                         <hr>
@@ -133,21 +126,6 @@
                     <div class="col-md-2"></div>
                 </div>
                 {% endif %}
-
-
-                    <!-- <div class="col-12 col-md-9 offset-md-3">
-                        <div class="comment-content p-3  mt-2" style="max-width: 90%; overflow-y: auto;">
-                            {% if comments %}
-                            {% for comment in comments %}
-                                    <li>
-                                        <span class="--bs-danger-bg-subtle mt-0"><b>author: {{ comment.author.username }}</b></span>
-                                        <p> {{ comment.body }}</p>
-                                    </li>
-                                    <hr>
-                                {% endfor %}
-                            {% else %}
-                                    <p>Please make the first comment</p>
-                            {% endif %} -->
             </div>
 
         </div>

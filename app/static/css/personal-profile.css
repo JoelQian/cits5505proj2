@@ -11,10 +11,27 @@
     padding-bottom: 1rem;
 }
 
-@media (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 991px) {
     .self-intro{
         margin-top: 12rem; 
         padding-top: 1rem;
+    }
+
+    .personal-profile-nav,
+    .category-tag {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .self-intro{
+        margin-top: 12rem; 
+        padding-top: 3rem;
+    }
+
+    .personal-profile-nav,
+    .comments-num {
+        display: none;
     }
 }
 

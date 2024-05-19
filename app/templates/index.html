@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 
+<!-- Title Block: Sets the title of the webpage to "QuorAI - Answers with AI", describing the site's purpose. -->
 {% block title %}
 <title>QuorAI - Answers with AI</title>
 {% endblock %}
 
-
+<!-- Style Block: Links a custom CSS file for specific styling of the index page, dynamically loaded using Flask's url_for function. -->
 {% block style %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
 {% endblock %}
@@ -23,9 +24,9 @@
         {% if current_user.is_authenticated %}
         {% else %}
         <div>
-            <a class="btn btn-secondary bg-gradient btn-large intro-btn-login" href="#">Login</a>
+            <a class="btn btn-secondary bg-gradient btn-large intro-btn-login" href="#" data-bs-toggle="modal" data-bs-target="#ModalToggle">Login</a>
             &nbsp;&nbsp;&nbsp;
-            <a class="btn btn-warning bg-gradient btn-large intro-btn-signup text-muted" href="#">Sign-up</a>
+            <a class="btn btn-warning bg-gradient btn-large intro-btn-signup text-muted" href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Sign-up</a>
        </div>
         {% endif %}
     </div>
@@ -54,7 +55,7 @@
             <div class="homepage-results col-md-9 column">
                 
                 {% if paginate.total == 0 %}
-                <h4 class="text-center mt-4 text-secondary" role="alert">
+                <h4 class="text-center mt-4 text-secondary">
                     No discussions found.
                 </h4>
                 {% else %}
@@ -119,7 +120,7 @@
 </div>
 {% endblock %}
 
-
+<!-- Script Block: Loads a custom JavaScript file for the index page and includes additional inline scripts for dynamic date handling using Moment.js. -->
 {% block script %}
 <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 <script>
@@ -138,5 +139,7 @@
             }
         {% endfor %}
     });
+
+       
 </script>
 {% endblock %}

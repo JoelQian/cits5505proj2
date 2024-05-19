@@ -17,243 +17,239 @@
 
 
 {% block main %}
-<!-- title header -->
-<div class="header">
-    <h5><span id="categoryTag" class="badge" data-category-id="{{ post.category.id }}">{{ post.category.name }}</span></h5>
-    <h1 class="danger-text post-title">{{ post.title }}</h1>
-</div>
-
-<div class="container">
-    <div class="row clearfix">
-        <div class="col-md-9 column">
-            <!-- post section -->
-            <div class="row clearfix mt-5">
-                <!-- Author content -->
-                    <div class="col-md-1 offset-md-2">
-                        <img alt="Avatar" src='https://robohash.org/{{ post.author.email }}' class="rounded-circle" style="width: 60px; height: 60px; border: rgba(0, 0, 0, 0.2) 2.5px solid;" />
-                    </div>
-                    <div class="col-md-9">
-                        <div>
-                            <h3 class="--bs-danger-bg-subtle" style="display: inline;"><b> {{post.author.username}} </b></h3>
-                            <h5 style="display: inline; color:brown;"><i class="bi bi-award-fill"></i>{{ post.author.credit }}</h5>
-                        </div>
-                        {% if post.author.bio %}
-                        <p class="text-muted mt-1">"{{ post.author.bio }}"</p>
-                        {% else %}
-                        <p class="text-muted mt-1">This user has not provided a bio yet...</p>
-                        {% endif %}
-                        {% if post.timestamp %}
-                        <div class="text-muted">
-                            <i class="bi bi-reply-fill"></i>
-                            Publish Date: <span id="humanTimestamp_{{ post.id }}"></span></div>
-                        {% endif %}
-                        <div class="author-content p-3  mt-2" style="max-width: 90%; overflow-y: auto;">
-                            <h5>{{post.body}}</h5>
-                        </div>
-                    </div>
-                    <div class="col-md-2"></div>
-                    <hr class="mt-4 mx-4 mb-5">
-            </div>
-
-            <!-- comment section -->
-            <div class="row clearfix mb-5">
-                <!-- reply button -->
-                <!-- comment -->
-                {% if comments %}
-                {% for comment in comments %}
-                <div class="row mt-3" id={{comment.id}}>
-                    <div class="col-md-1 offset-md-2">
-                        <img alt="Avatar" src='https://robohash.org/{{ comment.author.email }}' class="rounded-circle" style="width: 50px; height: 50px; border: rgba(0, 0, 0, 0.2) 1.5px solid;" />
-                    </div>
-                    <div class="col-md-9">
-                        <div>
-                            <h5 class="--bs-danger-bg-subtle" style="display: inline;">
-                                &nbsp;
-                                <i class="bi bi-chat-left-quote"></i>
-                                <b>{{comment.author.username}}</b></h5>
-                            <span style="display: inline; color: brown;">&nbsp;<i class="bi bi-award-fill"></i>{{ comment.author.credit }}</span>
-                            {% if comment.author == current_user %}
-                            <div class="float-end text-danger" style="display: inline; text-align: right;">
-                                <button class="btn" id="deleteCommentBtn" data-comment-id="{{ comment.id }}">
-                                    <i class="bi bi-trash-fill"></i>
-                                    &nbsp;
-                                </button>
-                            </div>
-                            {% endif %}
-                        </div>
-                            {% if comment.author.bio %}
-                            <p class="text-muted mt-1">&nbsp;"{{ comment.author.bio }}"</p>
-                            {% else %}
-                            <p class="text-muted mt-1">&nbsp;This user has not provided a bio yet...</p>
-                            {% endif %}
-                        <div class="author-content p-3 mt-2" style="max-width: 90%; overflow-y: auto;">
-                            <p>{{ comment.body }}</p>
-                        </div>
-                        <div class="text-muted" style="text-align: right;">
-                            <i class="bi bi-reply-fill"></i>
-                            {% if comment.timestamp %}
-                            <span id="humanTimestamp_{{ comment.id }}"></span> replied
-                            {% else %}
-                            Replied
-                            {% endif %}
-                        </div>
-
-                        <script>
-                            $(document).ready(function () {           
-                                var timestamp_{{ comment.id }} = '{{ comment.timestamp }}';
-                                var momentTimestamp_{{ comment.id }} = moment(timestamp_{{ comment.id }});
-                                var now = moment();
-                                var diffInHours_{{ comment.id }} = now.diff(momentTimestamp_{{ comment.id }}, 'hours');
-                                var element_{{ comment.id }} = document.getElementById('humanTimestamp_{{ comment.id }}');
-                                                        
-                                if (diffInHours_{{ comment.id }} < 24) {
-                                    element_{{ comment.id }}.textContent = momentTimestamp_{{ comment.id }}.fromNow();
-                                } else {
-                                    element_{{ comment.id }}.textContent = momentTimestamp_{{ comment.id }}.format('YYYY-MM-DD HH:mm:ss');
-                                }
-                            });
-                        </script>
-                        <hr>
-                    </div>
-                    <div class="col-md-2"></div>
-                </div>
-                {% endfor %}
-                {% else %}
-                <div class="row mt-3">
-                    <div class="col-md-10 offset-md-2 text-secondary">
-                        <h5>Please make the first comment !</h5>
-                    </div>
-                    <div class="col-md-2"></div>
-                </div>
-                {% endif %}
-            </div>
-
-        </div>
-
-        <div class="col-md-3 column">
-            <button type="button" class="btn btn-warning bg-gradient text-white px-3 mx-5 sticky-btn" data-bs-toggle="modal"
-            data-bs-target="#ModalComment" id="newcommentBtn">Post a comment
-        </button>
-       </div>
-
-        <!--Modal -->
-        <div class="modal fade" id="ModalComment" aria-hidden="true" aria-labelledby="ModalToggleLabel" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="ModalToggleLabel">Post a Comment</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group mb-4">
-                                <label for="comment-body" class="mt-1 mb-3">Your Comment:</label>
-                                <textarea id="comment-body" name="comment-body" class="form-control" rows="5" placeholder="Write your comment here..." required></textarea>
-                            </div>
-                            <div class="form-group commentbtn">
-                                <button type="button" class="btn btn-secondary bg-gradient mb-2" id="commentBtn">Submit Comment</button>
-                            </div>
-                            <div id="resultMessage" class="mt-4"></div>
-                        </form>
-
-                        <script>
-                            $(document).ready(function () {
-                                $('#commentBtn').click(function () {
-
-                                    var body = $('#comment-body').val();
-                                    var url = window.location.pathname;
-                                    var post_id = url.substring(url.lastIndexOf('/') + 1);
-
-                                    $.ajax({
-                                        type: 'POST',
-                                        url: url,
-                                        data: {
-                                            body: body,
-                                            post_id: post_id
-                                        },
-                                        success: function (response) {
-                                            if (response.code === 200) {
-                                                $('#resultMessage').html('<div class="alert alert-success" role="alert">Commented successfully! Credit+1!</div>');
-                                                // go to the discussion page
-                                                setTimeout(function () {
-                                                    window.location.href = url;
-                                                }, 1000);
+<div class="post-details-body">
+    <!-- title header -->
+    <div class="header">
+        <h5><span id="categoryTag" class="badge" data-category-id="{{ post.category.id }}">{{ post.category.name }}</span></h5>
+        <h1 class="danger-text post-title">{{ post.title }}</h1>
+    </div>
     
-                                            } else {
-                                                $('#resultMessage').html('<div class="alert alert-danger" role="alert">Error: ' + response.message + '</div>');
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-9 column">
+                <!-- post section -->
+                <div class="row clearfix mt-5">
+                    <!-- Author content -->
+                        <div class="col-md-1 offset-md-2">
+                            <img alt="Avatar" src='https://robohash.org/{{ post.author.email }}' class="rounded-circle" style="width: 60px; height: 60px; border: rgba(0, 0, 0, 0.2) 2.5px solid;" />
+                        </div>
+                        <div class="col-md-9">
+                            <div>
+                                <h3 class="--bs-danger-bg-subtle" style="display: inline;"><b> {{post.author.username}} </b></h3>
+                                <h5 style="display: inline; color:brown;"><i class="bi bi-award-fill"></i>{{ post.author.credit }}</h5>
+                            </div>
+                            {% if post.author.bio %}
+                            <p class="text-muted mt-1">"{{ post.author.bio }}"</p>
+                            {% else %}
+                            <p class="text-muted mt-1">This user has not provided a bio yet...</p>
+                            {% endif %}
+                            {% if post.timestamp %}
+                            <div class="text-muted">
+                                <i class="bi bi-reply-fill"></i>
+                                Publish Date: <span id="humanTimestamp_{{ post.id }}"></span></div>
+                            {% endif %}
+                            <div class="author-content p-3  mt-2" style="max-width: 90%; overflow-y: auto;">
+                                <h5>{{post.body}}</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <hr class="mt-4 mx-4 mb-5">
+                </div>
+    
+                <!-- comment section -->
+                <div class="row clearfix mb-5">
+                    <!-- reply button -->
+                    <!-- comment -->
+                    {% if comments %}
+                    {% for comment in comments %}
+                    <div class="row mt-3" id={{comment.id}}>
+                        <div class="col-md-1 offset-md-2">
+                            <img alt="Avatar" src='https://robohash.org/{{ comment.author.email }}' class="rounded-circle" style="width: 50px; height: 50px; border: rgba(0, 0, 0, 0.2) 1.5px solid;" />
+                        </div>
+                        <div class="col-md-9">
+                            <div>
+                                <h5 class="--bs-danger-bg-subtle" style="display: inline;">
+                                    &nbsp;
+                                    <i class="bi bi-chat-left-quote"></i>
+                                    <b>{{comment.author.username}}</b></h5>
+                                <span style="display: inline; color: brown;">&nbsp;<i class="bi bi-award-fill"></i>{{ comment.author.credit }}</span>
+                                {% if comment.author == current_user %}
+                                <div class="float-end text-danger" style="display: inline; text-align: right;">
+                                    <button class="btn" id="deleteCommentBtn" data-comment-id="{{ comment.id }}">
+                                        <i class="bi bi-trash-fill"></i>
+                                        &nbsp;
+                                    </button>
+                                </div>
+                                {% endif %}
+                            </div>
+                                {% if comment.author.bio %}
+                                <p class="text-muted mt-1">&nbsp;"{{ comment.author.bio }}"</p>
+                                {% else %}
+                                <p class="text-muted mt-1">&nbsp;This user has not provided a bio yet...</p>
+                                {% endif %}
+                            <div class="author-content p-3 mt-2" style="max-width: 90%; overflow-y: auto;">
+                                <p>{{ comment.body }}</p>
+                            </div>
+                            <div class="text-muted" style="text-align: right;">
+                                <i class="bi bi-reply-fill"></i>
+                                {% if comment.timestamp %}
+                                <span id="humanTimestamp_{{ comment.id }}"></span> replied
+                                {% else %}
+                                Replied
+                                {% endif %}
+                            </div>
+    
+                            <script>
+                                $(document).ready(function () {
+                                    var timestamp_{{ comment.id }} = '{{ comment.timestamp }}';
+                                    var momentTimestamp_{{ comment.id }} = moment(timestamp_{{ comment.id }});
+                                    var now = moment();
+                                    var diffInHours_{{ comment.id }} = now.diff(momentTimestamp_{{ comment.id }}, 'hours');
+                                    var element_{{ comment.id }} = document.getElementById('humanTimestamp_{{ comment.id }}');
+    
+                                    if (diffInHours_{{ comment.id }} < 24) {
+                                        element_{{ comment.id }}.textContent = momentTimestamp_{{ comment.id }}.fromNow();
+                                    } else {
+                                        element_{{ comment.id }}.textContent = momentTimestamp_{{ comment.id }}.format('YYYY-MM-DD HH:mm:ss');
+                                    }
+    
+                                });
+                            </script>
+                            <hr>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="row mt-3">
+                        <div class="col-md-10 offset-md-2 text-secondary">
+                            <h5>Please make the first comment !</h5>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    {% endif %}
+    
+                </div>
+    
+            </div>
+    
+            <div class="col-md-3 column">
+                <button type="button" class="btn btn-warning bg-gradient text-white px-3 mx-5 sticky-btn" data-bs-toggle="modal"
+                data-bs-target="#ModalComment" id="newcommentBtn">Post a comment
+            </button>
+           </div>
+    
+            <!--Modal -->
+            <div class="modal fade" id="ModalComment" aria-hidden="true" aria-labelledby="ModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="ModalToggleLabel">Post a Comment</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group mb-4">
+                                    <label for="comment-body" class="mt-1 mb-3">Your Comment:</label>
+                                    <textarea id="comment-body" name="comment-body" class="form-control" rows="5" placeholder="Write your comment here..." required></textarea>
+                                </div>
+                                <div class="form-group commentbtn">
+                                    <button type="button" class="btn btn-secondary bg-gradient mb-2" id="commentBtn">Submit Comment</button>
+                                </div>
+                                <div id="resultMessage" class="mt-4"></div>
+                            </form>
+    
+                            <script>
+                                $(document).ready(function () {
+                                    $('#commentBtn').click(function () {
+    
+                                        var body = $('#comment-body').val();
+                                        var url = window.location.pathname;
+                                        var post_id = url.substring(url.lastIndexOf('/') + 1);
+    
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: url,
+                                            data: {
+                                                body: body,
+                                                post_id: post_id
+                                            },
+                                            success: function (response) {
+                                                if (response.code === 200) {
+                                                    $('#resultMessage').html('<div class="alert alert-success" role="alert">Commented successfully! Credit+1!</div>');
+                                                    // go to the discussion page
+                                                    setTimeout(function () {
+                                                        window.location.href = url;
+                                                    }, 1000);
+    
+                                                } else {
+                                                    $('#resultMessage').html('<div class="alert alert-danger" role="alert">Error: ' + response.message + '</div>');
+                                                }
+                                            },
+                                            error: function () {
+                                                $('#resultMessage').html('<div class="alert alert-danger" role="alert">An error occurred. Please try again later.</div>');
                                             }
-                                        },
-                                        error: function () {
-                                            $('#resultMessage').html('<div class="alert alert-danger" role="alert">An error occurred. Please try again later.</div>');
-                                        }
+                                        });
                                     });
                                 });
-                            });
-                        </script>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+                            </script>
+    
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>    
-
-
-
-        {% endblock %}
-        {% block script %}
-        <script>
-            $(document).ready(function () {
-                    var timestamp_{{ post.id }} = '{{ post.timestamp }}';
-                    var momentTimestamp_{{ post.id }} = moment(timestamp_{{ post.id }});
-                    var now = moment();
-                    var diffInHours_{{ post.id }} = now.diff(momentTimestamp_{{ post.id }}, 'hours');
-                    var element_{{ post.id }} = document.getElementById('humanTimestamp_{{ post.id }}');
-
-                    if (diffInHours_{{ post.id }} < 24) {
-                        element_{{ post.id }}.textContent = momentTimestamp_{{ post.id }}.fromNow();
-                    } else {
-                        element_{{ post.id }}.textContent = momentTimestamp_{{ post.id }}.format('YYYY-MM-DD HH:mm:ss');
-                    }
-            });
-        </script>
-
-        <script>
-            // delete comment
-            $(document).ready(function () {
-                $('#deleteCommentBtn').click(function () {
-                    const comment_id = $(this).data('comment-id');
-                    const baseUrl = `${window.location.protocol}//${window.location.host}`;
-
-                    $.ajax({
-                        type: 'POST',
-                        url: `${baseUrl}/delete-comment/${comment_id}`,
-                        success: function (response) {
-                            if (response.code === 200) {
-                                $('#resultMessage').html('<div class="alert alert-success" role="alert">Comment deleted successfully!</div>');
-                                // go to the discussion page
-                                setTimeout(function () {
-                                    window.location.href = window.location.pathname;
-                                }, 1000);
-
-                            } else {
-                                $('#resultMessage').html('<div class="alert alert-danger" role="alert">Error: ' + response.message + '</div>');
-                            }
-                        },
-                        error: function () {
-                            $('#resultMessage').html('<div class="alert alert-danger" role="alert">An error occurred. Please try again later.</div>');
+    
+            {% endblock %}
+            {% block script %}
+            <script>
+                $(document).ready(function () {
+                        var timestamp_{{ post.id }} = '{{ post.timestamp }}';
+                        var momentTimestamp_{{ post.id }} = moment(timestamp_{{ post.id }});
+                        var now = moment();
+                        var diffInHours_{{ post.id }} = now.diff(momentTimestamp_{{ post.id }}, 'hours');
+                        var element_{{ post.id }} = document.getElementById('humanTimestamp_{{ post.id }}');
+    
+                        if (diffInHours_{{ post.id }} < 24) {
+                            element_{{ post.id }}.textContent = momentTimestamp_{{ post.id }}.fromNow();
+                        } else {
+                            element_{{ post.id }}.textContent = momentTimestamp_{{ post.id }}.format('YYYY-MM-DD HH:mm:ss');
                         }
+                });
+            </script>
+    
+            <script>
+                // delete comment
+                $(document).ready(function () {
+                    $('#deleteCommentBtn').click(function () {
+                        const comment_id = $(this).data('comment-id');
+                        const baseUrl = `${window.location.protocol}//${window.location.host}`;
+    
+                        $.ajax({
+                            type: 'POST',
+                            url: `${baseUrl}/delete-comment/${comment_id}`,
+                            success: function (response) {
+                                if (response.code === 200) {
+                                    $('#resultMessage').html('<div class="alert alert-success" role="alert">Comment deleted successfully!</div>');
+                                    // go to the discussion page
+                                    setTimeout(function () {
+                                        window.location.href = window.location.pathname;
+                                    }, 1000);
+    
+                                } else {
+                                    $('#resultMessage').html('<div class="alert alert-danger" role="alert">Error: ' + response.message + '</div>');
+                                }
+                            },
+                            error: function () {
+                                $('#resultMessage').html('<div class="alert alert-danger" role="alert">An error occurred. Please try again later.</div>');
+                            }
+                        });
                     });
                 });
-            });
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-        <script src="{{ url_for('static', filename='js/new-discussion.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/post-details.js') }}"></script>
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+            <script src="{{ url_for('static', filename='js/new-discussion.js') }}"></script>
+            <script src="{{ url_for('static', filename='js/post-details.js') }}"></script>
         {% endblock %}

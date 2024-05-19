@@ -133,7 +133,7 @@ Biography Section: user.bio is included and the default filter provides a fallba
                                     </h5>
                                     <p>
                                         <i class="bi bi-reply-fill"></i>
-                                        Publish Date: <span id="humanTimestamp_{{ post.id }}"></span>
+                                        <span>Replied to <b>{{ post.author.username }}</b></span>
                                     </p>
                                 
                                     <p>{{ comment.body }}</p>
@@ -143,7 +143,7 @@ Biography Section: user.bio is included and the default filter provides a fallba
                             </div>
                             <div class="col-md-2 column">
                                 <div class="row clearfix">
-                                    <div class="col-md-6 column">
+                                    <div class="col-md-6 column category-tag">
                                         <span class="badge category-tag" data-category-id="{{ post.category.id }}">{{ post.category.name }}</span>
                                     </div>
                                     <div class="col-md-6 column text-secondary">
@@ -155,7 +155,6 @@ Biography Section: user.bio is included and the default filter provides a fallba
                                 </div>
                                 <div class="text-danger mt-5" style="text-align: right;">
                                     <button class="btn deleteBtn">
-                                        <i class="bi bi-trash-fill"></i>
                                         &nbsp;
                                     </button>
                                 </div>
@@ -195,7 +194,7 @@ Biography Section: user.bio is included and the default filter provides a fallba
                                 <div class="col-md-6 column">
                                     <span class="badge category-tag" data-category-id="{{ post.category.id }}">{{ post.category.name }}</span>
                                 </div>
-                                <div class="col-md-6 column text-secondary">
+                                <div class="col-md-6 column text-secondary comments-num">
                                     <p>
                                         <i class="bi bi-chat-right-heart-fill"></i> 
                                         {{ post.comments.all()|length }}
@@ -216,7 +215,7 @@ Biography Section: user.bio is included and the default filter provides a fallba
             {% else %}
             <div class="row clearfix">
                 <div class="col-md-12 column">
-                    <h5 class="text-center mt-4 text-secondary" role="alert">
+                    <h5 class="text-center mt-4 text-secondary">
                         This user hasn't posted yet.
                     </h5>
                 </div>

@@ -2,7 +2,17 @@ main {
     margin-top: 110px;
 }
 
-@media (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 991px) {
+    main {
+        margin-top: 260px;
+    }
+    .homepage-nav,
+    .category-tag {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
     main {
         margin-top: 260px;
     }
